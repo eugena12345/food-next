@@ -1,0 +1,156 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.navMenu {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .navList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    display: flex;
+    gap: vars.$spaceL;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    height: 100%;
+
+
+    .navItem {
+      list-style-type: none;
+
+      .navLink {
+        color: black;
+        position: relative;
+
+        &:hover {
+          color: vars.$color-brand;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -17px;
+          height: 2px;
+          background-color: vars.$color-brand;
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
+        }
+
+        &:hover::after {
+          transform: scaleX(1);
+        }
+      }
+    }
+  }
+}
+
+.burger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: none;
+
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.close {
+  font-size: 24px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  margin: 10px 0;
+}
+
+.navLink {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+
+  &:hover {
+    color: vars.$color-brand;
+  }
+}
+
+.mobMenu {
+  background-color: #ffffff;
+}
+
+.burger {
+  display: none;
+}
+
+@media (max-width: vars.$breakpointsS) {
+  .navMenu {
+    display: none;
+  }
+
+  .burger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 100%;
+    position: relative;
+  }
+
+  .mobileMenu {
+    position: absolute;
+    top: 50px;
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
+    border: 1px solid vars.$color-brand;
+    width: 70vw;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+
+  }
+
+  .close {
+    width: vars.$spaceL;
+    height: vars.$spaceL;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navList {
+    padding-left: 5px;
+  }
+
+  .navItem {
+    list-style-type: none;
+
+    .navLink {
+      color: black;
+      position: relative;
+
+      &:hover {
+        color: vars.$color-brand;
+      }
+    }
+  }
+
+
+}

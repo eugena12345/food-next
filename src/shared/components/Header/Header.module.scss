@@ -1,0 +1,39 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.generalHeaderContainer {
+    width: 100%;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    background-color: #ffffff;
+    padding: vars.$spaceM 0;
+    display: flex;
+    justify-content: center;
+
+}
+
+.headerContainer {
+    display: flex;
+    width: 100%;
+    max-width: vars.$maxWidth;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.logoContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 17px;
+    cursor: pointer;
+}
+
+.logoTitle {
+    font-weight: bold;
+}
+
+.logout {
+    width: vars.$spaceXL;
+}
