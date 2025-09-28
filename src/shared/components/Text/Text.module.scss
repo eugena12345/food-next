@@ -1,0 +1,70 @@
+@use './../../styles/variables.module.scss' as vars;
+
+// @font-face {
+//     font-weight: normal;
+//     font-family: Roboto;
+//     src: url("../../styles/Roboto/Roboto-Regular.woff2");
+// }
+
+// @font-face {
+//     font-weight: bold;
+//     font-family: Roboto;
+//     src: url("../../styles/Roboto/Roboto-Bold.woff2");
+// }
+
+// @font-face {
+//     font-weight: medium;
+//     font-family: Roboto;
+//     src: url("../../styles/Roboto/Roboto-Medium.woff2");
+// }
+
+.title {
+    font-size: 44px;
+}
+
+.button {
+    font-size: 18px;
+}
+
+.p-20 {
+    font-size: vars.$spaceL;
+}
+
+.p-18 {
+    font-size: 18px;
+
+}
+
+.p-16 {
+    font-size: vars.$spaceM;
+
+}
+
+.p-14 {
+    font-size: vars.$spaceS;
+
+}
+
+.normal {
+    font-weight: normal;
+}
+
+.medium {
+    font-weight: medium;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.primary {
+    color: #000000;
+}
+
+.secondary {
+    color: #AFADB5;
+}
+
+.accent {
+    color: vars.$color-brand;
+}

@@ -1,0 +1,170 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.container {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 40px;
+  padding: vars.$spaceL;
+  height: 100%;
+}
+
+.leftBlock,
+.rightBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spaceM;
+
+}
+
+
+.title {
+  font-size: vars.$spaceL;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.columns {
+  display: flex;
+  gap: vars.$spaceL;
+  height: 100%;
+}
+
+.column {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    font-size: vars.$spaceM;
+    line-height: 1.5;
+    padding: 8px 0;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+  }
+
+  .dinnerLogo {
+    width: vars.$spaceXL;
+    height: vars.$spaceXL;
+    flex-shrink: 0;
+  }
+
+  .descr {
+    text-align: left;
+  }
+}
+
+.divider {
+  position: relative;
+  width: 2px;
+
+}
+
+.circle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: #B5460F;
+  border: 1px solid #B5460F;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.line {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 2px;
+  background-color: #B5460F;
+  transform: translateX(-50%);
+  height: 95%;
+}
+
+@media (max-width: vars.$breakpointsL) {
+  .container {
+    gap: 30px;
+    padding: vars.$spaceM;
+  }
+
+  .title {
+    font-size: vars.$spaceM;
+  }
+
+  .columns {
+    gap: vars.$spaceM;
+  }
+
+  .dinnerLogo {
+    width: vars.$spaceL;
+    height: vars.$spaceL;
+  }
+}
+
+@media (max-width: vars.$breakpointsM) {
+  .container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .leftBlock,
+  .rightBlock {
+    flex: none;
+  }
+
+  .columns {
+    flex-direction: column;
+    gap: vars.$spaceS;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .circle {
+    display: none;
+  }
+}
+
+@media (max-width: vars.$breakpointsS) {
+  .container {
+    padding: vars.$spaceS;
+  }
+
+  .title {
+    font-size: vars.$spaceS;
+  }
+
+  .column li {
+    font-size: vars.$spaceXS;
+    gap: 5px;
+  }
+
+  .dinnerLogo {
+    width: vars.$spaceM;
+    height: vars.$spaceM;
+  }
+}
+
+@media (max-width: vars.$breakpointsXS) {
+  .container {
+    gap: 10px;
+  }
+
+  .title {
+    font-size: vars.$spaceS;
+  }
+
+  .column li {
+    font-size: vars.$spaceXS;
+    gap: 3px;
+  }
+
+  .dinnerLogo {
+    width: vars.$spaceS;
+    height: vars.$spaceS;
+  }
+}

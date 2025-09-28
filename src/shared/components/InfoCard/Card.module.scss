@@ -1,0 +1,100 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.card {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    background-color: white;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: vars.$spaceXS;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    &__image-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+        overflow: hidden;
+    }
+
+    &__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        background-color: #d9d9d9;
+    }
+
+    &__info {
+        padding-top: vars.$spaceXL;
+        padding-bottom: vars.$spaceXL;
+        background-color: white;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: stretch;
+    }
+
+    &__description {
+        padding-bottom: vars.$spaceL;
+        padding-left: vars.$spaceXS;
+        padding-right: vars.$spaceXS;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: stretch;
+        flex-grow: 1;
+    }
+
+    &__caption {
+        margin-bottom: vars.$spaceXXS;
+        font-size: vars.$spaceS;
+        color: #afadb5;
+        font-weight: medium;
+        flex-grow: 0;
+    }
+
+    &__title {
+        display: flex;
+        flex-grow: 1;
+    }
+
+    &__buy-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-left: vars.$spaceXS;
+        padding-right: vars.$spaceXS;
+        flex-grow: 0;
+    }
+
+    &__price {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #000000;
+    }
+}
+
+@media (max-width: vars.$breakpointsS) {
+    .card {
+        width: 45%;
+    }
+}
+
+@media (max-width: 400px) {
+    .card {
+        width: 100%;
+    }
+}

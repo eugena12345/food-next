@@ -1,0 +1,188 @@
+@use './../../shared/styles/variables.module.scss' as vars;
+
+.container {
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #FFC0763B;
+    padding-left: 100px;
+    padding-right: 100px;
+    box-sizing: border-box;
+    text-align: left;
+    position: relative;
+    overflow-x: hidden;
+
+
+    &--maxWidth {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: vars.$maxWidth;
+        height: 100%;
+    }
+}
+
+.decorativeImage {
+    position: absolute;
+    top: -70px;
+    right: -20px;
+    width: 500px;
+    height: 500px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 1;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.center {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.recipe {}
+
+.preInfo {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 48px;
+}
+
+.card__image {
+    width: 30%;
+    height: auto;
+    object-fit: contain
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto;
+    margin: 8vw;
+}
+
+.descrElement {
+    width: calc(100% / 3);
+    box-sizing: border-box;
+}
+
+.summary {
+    padding: 48px;
+    background-color: #B5460F54;
+    border-radius: vars.$spaceXL;
+    margin-right: 89px;
+    margin-bottom: 48px;
+    text-align: justify;
+}
+
+.error {
+    color: red;
+    font-size: vars.$spaceL;
+}
+
+
+@media (max-width: vars.$breakpointsL) {
+    .container {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    .decorativeImage {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (max-width: vars.$breakpointsM) {
+    .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .decorativeImage {
+        width: 300px;
+        height: 300px;
+        top: -50px;
+        right: -10px;
+    }
+
+    .card__image {
+        width: 40%;
+    }
+
+    .descrElement {
+        width: calc(100% / 2);
+    }
+
+    .summary {
+        margin-right: 40px;
+        padding: 32px;
+    }
+}
+
+@media (max-width: vars.$breakpointsS) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .decorativeImage {
+        width: 200px;
+        height: 200px;
+        top: -30px;
+        right: -5px;
+    }
+
+    .preInfo {
+        flex-direction: column;
+    }
+
+    .card__image {
+        width: 300px;
+        margin-bottom: 20px;
+    }
+
+    .info {
+        margin: 10px;
+
+
+    }
+
+    .summary {
+        margin-right: 0;
+        padding: 24px;
+    }
+}
+
+@media (max-width: vars.$breakpointsXS) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .decorativeImage {
+        width: 150px;
+        height: 150px;
+        top: -20px;
+        right: -5px;
+    }
+
+    .summary {
+        padding: 16px;
+    }
+
+    .card__image {
+        width: 200px;
+        margin-bottom: 20px;
+    }
+}
