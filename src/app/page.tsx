@@ -9,7 +9,19 @@ import Link from "next/link";
 import { routes } from "~/shared/config/routes.config";
 
 
-export default async function RecipesPage() {
+export default async function RecipesPage({ searchParams }: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+
+
+// export default async function Page({ searchParams }: {
+//   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+// }) {
+  const { search, category } = await searchParams;
+// }
+
+console.log('search, category', search, category);
+
   const res = await fetch('https://front-school-strapi.ktsdev.ru/api/recipes?populate[0]=images&populate[1]=category&populate[2]=ingradients', {
     method: 'GET',
     headers: {
