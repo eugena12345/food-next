@@ -22,14 +22,19 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     event.stopPropagation();
     setIsOptionsOpen(true);
   }, [disabled]);
-  const closeOptions = useCallback(() => setIsOptionsOpen(false), []);
+
+  const closeOptions = useCallback(() => {
+    setIsOptionsOpen(false);
+  }, []);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
 
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+
         closeOptions();
       }
     };
@@ -75,10 +80,10 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     setInputValue(stringValue)
   }, []);
   return (
-    <div className={styles.container}>
+    <div ref={dropdownRef} className={styles.container}>
       <Input className={className} onChange={handleUpdateInputValue} afterSlot={<ArrowDownIcon />} disabled={disabled} onClick={openOptions} {...args}
       />
-      <div ref={dropdownRef} className={styles.options}>
+      <div className={styles.options}>
         {isOptionsOpen && !disabled &&
           filteredOptions.map((item) => {
             const className = value.some((selectedItem) => selectedItem.key.toString() === item.key) ?

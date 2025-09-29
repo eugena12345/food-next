@@ -1,15 +1,18 @@
 import { action, computed, makeObservable, observable, toJS } from "mobx";
-//import rootStore from "~/store/RootStore/instance";
 import { getCategoryInit, getSearchInit } from "./config";
 
 type PrivateFields = '_search' | '_categories' | '_tempSearch';
+interface InitialQueryParams {
+    search?: string;
+    categories?: string[];
+}
 
 export default class CatalogFiltersStore {
     private _tempSearch: string = getSearchInit();
     private _search: string = getSearchInit();
     private _categories: string[] = getCategoryInit();
 
-    constructor() {
+    constructor(initialQueryParams?: InitialQueryParams) {
         makeObservable<CatalogFiltersStore, PrivateFields>(this, {
             _search: observable,
             _categories: observable,
@@ -21,6 +24,13 @@ export default class CatalogFiltersStore {
             setSearch: action.bound,
             setCategories: action.bound,
         });
+
+        if (initialQueryParams) {
+            this._tempSearch = initialQueryParams.search || '';
+            this._search = initialQueryParams.search || '';
+            this._categories = initialQueryParams.categories || [];
+
+        }
     }
 
 
@@ -42,22 +52,16 @@ export default class CatalogFiltersStore {
 
     setSearch(): void {
         this._search = this._tempSearch;
-        console.log('setSearch', this._search)
-       // rootStore.query.updateQueryParam('search', this._search);
-
     }
 
     setCategories(value: string[]): void {
         this._categories = value;
-       // rootStore.query.updateQueryParam('categories', value);
-
     }
 
     resetFilters(): void {
         this._tempSearch = "";
         this._search = "";
         this._categories = [];
-        //rootStore.query.setSearch("");
     }
 
     reset(): void {

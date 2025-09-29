@@ -12,7 +12,7 @@ const CatalogFilters = () => {
         <div className={styles.container}>
             <SearchFilter />
             <div className={styles.filterandsort}>
-                {/* <CategoriesFilter /> */}
+                <CategoriesFilter />
             </div>
             <div className={styles.container__resultOrReset}>
                 <div className={styles['container__result']}>

@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "~/components/Header";
 import { RootStoreProvider } from "~/shared/stores/RootStore/RootStoreProvider";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,8 +28,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <RootStoreProvider rootStoreInitData={{ theme: 'light' }}>
-         <Header/>
-        {children}
+          <Header />
+          {children}
         </RootStoreProvider>
       </body>
     </html>

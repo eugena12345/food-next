@@ -1,12 +1,18 @@
 import { makeAutoObservable } from 'mobx';
-
 export class RootStore {
-  // Здесь можно добавить любые состояния
   someData: string = '';
+  query: QueryStore;
+  apiStore: ApiStore;
 
-  constructor(initialData: Partial<RootStore>) {
+  constructor(queryStore: QueryStore, apiStore: ApiStore, initialData?: Partial<RootStore>) {
     makeAutoObservable(this);
-    Object.assign(this, initialData);
+
+    this.query = queryStore;
+    this.apiStore = apiStore;
+
+    if (initialData) {
+      Object.assign(this, initialData);
+    }
   }
 
   setSomeData(data: string) {
@@ -14,5 +20,11 @@ export class RootStore {
   }
 }
 
-// Тип инициализации хранилища
-export type RootStoreInitData = Partial<RootStore>;
+export type RootStoreInitData = Partial<Omit<RootStore, 'query' | 'apiStore'>>;
+
+export function createRootStore(apiBaseUrl: string, initialData?: RootStoreInitData) {
+  const queryStore = new QueryStore();
+  const apiStore = new ApiStore(apiBaseUrl);
+
+  return new RootStore(queryStore, apiStore, initialData);
+}

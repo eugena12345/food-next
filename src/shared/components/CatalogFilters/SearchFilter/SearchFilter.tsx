@@ -3,36 +3,42 @@
 import Input from "~/components/Input";
 import Button from "~/components/Button";
 import styles from './SearchFilter.module.scss';
-import { useCallback, useState } from "react";
-import { observer, useLocalStore } from "mobx-react-lite";
-import CatalogFiltersStore from "~/shared/stores/ProductsPageStore/CatalogFiltersStore/CatalogFiltersStore";
-//import { useLocalStore } from "~/utils/useLocalStore";
-//import CatalogFiltersStore from "~store/CatalogStore/CatalogFiltersStore/CatalogFiltersStore";
+import { useCallback } from "react";
+import { observer } from "mobx-react-lite";
+import { useLocalStore } from '~/utils/useLocalStore';
+import { useRouter, useSearchParams } from 'next/navigation';
+import CatalogFiltersStore from "~/shared/stores/CatalogStore/CatalogFiltersStore/CatalogFiltersStore";
+
 
 const SearchFilter = () => {
-    // const [value, setValue] = useState('');
-
-    const catalogFiltersStore = useLocalStore(() => new CatalogFiltersStore());
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const initialQueryParams = {
+        search: searchParams.get('search') || '',
+        categories: searchParams.getAll('categories') || [],
+    };
+    const catalogFiltersStore = useLocalStore(() => new CatalogFiltersStore(initialQueryParams || {}))
     const { tempSearch, setTempSearch, setSearch } = catalogFiltersStore;
-
     const handleInputChange = useCallback((value: string) => {
         setTempSearch(value);
     }, [setTempSearch]);
 
-    const handleButtonClock = useCallback(() => {
+    const handleButtonClick = useCallback(() => {
         setSearch();
-    }, [setSearch]);
-
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('search', catalogFiltersStore.search);
+        router.push(currentUrl.toString());
+    }, [setSearch, catalogFiltersStore]);
 
     return (
         <div className={styles['search__container']}>
             <Input
                 placeholder="Search product"
-                onChange={handleInputChange}//{}
-                value={tempSearch}//{tempSearch}
+                onChange={handleInputChange}
+                value={tempSearch}
                 className={styles['search__container--input']}
             />
-            <Button onClick={handleButtonClock}>Find now</Button>
+            <Button onClick={handleButtonClick}>Find now</Button>
         </div>
     )
 };

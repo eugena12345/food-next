@@ -1,5 +1,4 @@
-'use client'; // добавила так как хуки
-
+'use client'; 
 import React from 'react';
 import { useCreateRootStore, RootStoreInitData } from './createStore';
 import { useStrictContext } from './useStrictContext';

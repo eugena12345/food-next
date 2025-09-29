@@ -7,15 +7,9 @@ const Component = () => {
   const store = useProductsPageStore();
   const rootStore = useRootStore();
 
-  console.log('about store product', store);
-    console.log('about rootStore', rootStore);
-
-
   return (
     <div>
-
-      {/* {store.observedField}  */}
-      {/* {rootStore.observedField} */}
+      здесь была проверка для разработки, может еще понадобиться
     </div>
   )
 }

@@ -20,10 +20,9 @@ export default async function RecipePage({ params }: Props) {
         .then(r => r.ok ? r.json() : null);
 
     if (!product) return notFound();
-console.log('product', product)
-const recipe = product.data;
-    return    (   
-          <div className={styles.container}>
+    const recipe = product.data;
+    return (
+        <div className={styles.container}>
             <div className={styles.decorativeImage} style={{ backgroundImage: `url(${decorativeImage})` }}></div>
             <div className={styles[`container--maxWidth`]}>
                 {/* {error && <div className={styles.error}>{error}</div>} */}
@@ -94,5 +93,5 @@ const recipe = product.data;
             </div>
         </div>
     )
-;
+        ;
 }
