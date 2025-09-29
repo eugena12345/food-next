@@ -1,0 +1,21 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spaceXL;
+    margin-top: 36px;
+    margin-bottom: 48px;
+
+    .withoutMargin {
+        margin-block-start: 0;
+        margin-block-end: 0;
+        text-align: center;
+    }
+
+}

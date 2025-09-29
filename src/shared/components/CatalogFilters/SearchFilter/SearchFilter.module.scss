@@ -1,0 +1,23 @@
+@use './../../../styles/variables.module.scss' as vars;
+
+.search {
+    &__container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: vars.$spaceXL;
+
+        &--input {
+            flex-grow: 1;
+            flex-shrink: 1;
+            margin-right: vars.$spaceXL;
+        }
+    }
+
+    @media (max-width: vars.$breakpointsXS) {
+        &__container {
+            &--input {
+                margin-right: 2px;
+            }
+        }
+    }
+}

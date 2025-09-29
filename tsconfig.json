@@ -41,6 +41,9 @@
       ],
       "~/app/*": [
         "./src/shared/app/*"
+      ],
+      "~/stores/*": [
+        "./src/shared/stores/*"
       ]
     }
   },

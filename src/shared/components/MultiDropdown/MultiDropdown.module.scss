@@ -1,0 +1,49 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.container {
+  position: relative;
+  min-width: 300px;
+}
+
+.options {
+  background-color: white;
+  margin-top: vars.$spaceXXS;
+  box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.18);
+  font-size: vars.$spaceM;
+  font-weight: normal;
+  position: absolute;
+  width: 300px;
+  z-index: 10;
+  top: 50px;
+  left: 0;
+
+  &__option {
+    padding: vars.$spaceS vars.$spaceXS;
+    color: #000000;
+
+    &:hover {
+      color: vars.$color-optionHover;
+    }
+
+    &--selected {
+      padding: vars.$spaceS vars.$spaceXS;
+      color: vars.$color-brand;
+
+      &:hover {
+        color: vars.$color-brand;
+      }
+    }
+  }
+
+
+}
+
+@media (max-width: vars.$breakpointsXS) {
+  .container {
+    width: 200px;
+  }
+
+  .options {
+    width: 200px;
+  }
+}

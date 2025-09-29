@@ -1,0 +1,27 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.container {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding-right: vars.$spaceXS;
+    border: 1px solid transparent;
+    width: 100%;
+    margin-right: 5px;
+
+    &:focus-within {
+        background-color: #FFFFFF;
+        border: 1px solid vars.$color-brand;
+    }
+
+    input {
+        box-sizing: border-box;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+        padding: vars.$spaceM vars.$spaceXS;
+        border: 1px solid transparent;
+        flex-grow: 1;
+        font-size: vars.$spaceM;
+    }
+}

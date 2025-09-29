@@ -1,0 +1,72 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 48px;
+
+    &__search {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: vars.$spaceXL;
+
+        &--grow {
+            flex-grow: 1;
+            margin-right: vars.$spaceXL;
+        }
+    }
+
+    .filterandsort {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: vars.$spaceM;
+
+    }
+
+    &__result {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: vars.$spaceXL;
+    }
+
+    &__resultOrReset {
+        margin-top: 48px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: vars.$spaceXL;
+        justify-content: space-between;
+        padding-left: vars.$spaceL;
+        padding-right: vars.$spaceL;
+
+    }
+}
+
+@media (max-width: vars.$breakpointsS) {
+    .container {
+
+        .filterandsort {
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+    }
+}
+
+@media (max-width: vars.$breakpointsXS) {
+    .container {
+
+        &__resultOrReset {
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+    }
+}
