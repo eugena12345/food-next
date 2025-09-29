@@ -3,7 +3,11 @@ import styles from './page.module.scss';
 import decorativeImage from './../../../public/images/Pattern.png';
 import Text from '~/shared/components/Text';
 import IngredientsEquipmentBlock from '~/shared/components/IngredientsEquipmentBlock';
-
+type StepType = {
+    description: string,
+    id: number,
+    image: null
+}
 
 type Props = {
     params: Promise<{ id: string }>
@@ -79,7 +83,8 @@ export default async function RecipePage({ params }: Props) {
 
                         <div className={styles.description}>
                             <Text tag='h2'>Directions</Text>
-                            {recipe.directions?.map((step, idx) => {
+                            {recipe.directions?.map((step: StepType, idx: number) => {
+                                console.log(step)
                                 return (
                                     <div key={step.id} className={styles.steps}>
                                         <Text tag='h3'>Step {idx + 1}</Text>
