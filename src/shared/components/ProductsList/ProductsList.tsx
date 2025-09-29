@@ -12,7 +12,11 @@ import InfoCard from '../InfoCard';
 import { getIngradientsString } from '~/utils/helpers';
 import Button from '../Button';
 
-const ProductsPageClient = (initData: Recipe[]) => {
+interface ProductsListProps {
+  initData: Recipe[];
+}
+
+const ProductsList: React.FC<ProductsListProps> = (initData) => {
   const rootStore = useRootStore();
   const store = useLocalStore(() =>
     new CatalogStore(
@@ -53,4 +57,4 @@ const ProductsPageClient = (initData: Recipe[]) => {
   )
 };
 
-export default observer(ProductsPageClient);
+export default observer(ProductsList);

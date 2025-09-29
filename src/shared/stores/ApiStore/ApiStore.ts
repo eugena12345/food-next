@@ -39,7 +39,7 @@ export default class ApiStore implements IApiStore {
     async request<SuccessT, ErrorT = unknown, ReqT = Record<string, unknown>>(
         params: RequestParams<ReqT>
     ): Promise<ApiResponse<SuccessT, ErrorT>> {
-        console.log('request params', params)
+        //console.log('request params', params)
         try {
             const { url, ...requestOptions } = this._getRequestData(params);
             const response = await fetch(url, requestOptions);

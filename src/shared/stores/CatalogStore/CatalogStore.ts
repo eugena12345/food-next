@@ -51,8 +51,8 @@ export default class CatalogStore {
         return this._metaInfo;
     }
 
-    static async getInitialData(apiStore: ApiStore, queryParams: Record<string, string>) {
-        console.log('getInitialData queryParams', queryParams)
+    static async getInitialData(apiStore: ApiStore, queryParams: Record<string, string>): Promise<Recipe[]> {
+        //console.log('getInitialData queryParams', queryParams)
         const paramsForApi = createParamsForApi(queryParams);
 
         try {

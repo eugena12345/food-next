@@ -25,6 +25,7 @@ export default async function RecipesPage({ searchParams }: {
   );
 
   const productsInitDataResponse = await CatalogStore.getInitialData(new ApiStore(baseUrl), params);
+  //console.log('productsInitDataResponse', productsInitDataResponse)
 
   return (
     <div>
@@ -48,7 +49,7 @@ export default async function RecipesPage({ searchParams }: {
                     } */}
 
           {/* <ProductsPageStoreContextProvider initData={productsInitDataResponse.data}>  */}
-          <ProductsList initData={productsInitDataResponse} />
+          <ProductsList initData={productsInitDataResponse || []} />
           {/* </ProductsPageStoreContextProvider> */}
 
 
