@@ -16,7 +16,7 @@ interface ProductsListProps {
   initData: Recipe[];
 }
 
-const ProductsList: React.FC<ProductsListProps> = (initData) => {
+const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
   const rootStore = useRootStore();
   const store = useLocalStore(() =>
     new CatalogStore(

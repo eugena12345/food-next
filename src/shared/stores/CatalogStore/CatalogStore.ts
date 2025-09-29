@@ -22,7 +22,7 @@ export default class CatalogStore {
     ) {
 
         if (initData) {
-            this._recepies = initData.initData;
+            this._recepies = initData;
             this._meta = Meta.success;
         }
 
