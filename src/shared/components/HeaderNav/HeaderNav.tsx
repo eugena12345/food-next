@@ -30,7 +30,7 @@ const HeaderNav = () => {
                     bmBurgerButton: {
                         position: 'relative',
                         width: '25px',
-                        heigth: '25px',
+                        height: '25px',
                     },
                     bmOverlay: {
                         top: '-16px',
