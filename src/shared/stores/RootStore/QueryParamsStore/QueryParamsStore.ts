@@ -18,9 +18,7 @@ export default class QueryParamsStore {
         });
     }
 
-    getParam(
-        key: string
-    ): undefined | string | string[] | qs.ParsedQs | qs.ParsedQs[] {
+    getParam(key: string): string | qs.ParsedQs | (string | qs.ParsedQs)[] | undefined {
         return this._params[key];
     }
 
