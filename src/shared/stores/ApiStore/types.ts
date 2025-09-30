@@ -9,7 +9,7 @@ export type RequestParams<ReqT> = {
     headers: Record<string, string>;
 
     data: ReqT;
-    params?: Record<string, any>; // Добавьте это поле, если оно используется для GET-запросов
+    params?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 };
 
 export enum StatusHTTP {
