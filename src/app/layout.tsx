@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <RootStoreProvider rootStoreInitData={{ theme: 'light' }}>
+        <RootStoreProvider rootStoreInitData={{}}>
           <Header />
           {children}
         </RootStoreProvider>
