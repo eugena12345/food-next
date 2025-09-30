@@ -131,33 +131,56 @@ export default class CatalogStore {
     }
 
     private _setupQueryReactions() {
-        this._qpReactionPage = reaction(
-            () => this.queryStore.getParam('page'),
-            (newPage) => {
-                if (newPage !== undefined) {
-                    this.getRecipiesList(this.queryStore.getQueryParams());
-                }
+    this._qpReactionPage = reaction(
+        () => this.queryStore.getParam('page'),
+        (newPage) => {
+            if (typeof newPage === 'string') {
+                const queryParams = this.queryStore.getQueryParams();
+                this.getRecipiesList(this._convertToRecord(queryParams));
             }
-        );
+        }
+    );
 
-        this._qpReactionName = reaction(
-            () => this.queryStore.getParam('search'),
-            (newSearch) => {
-                if (newSearch !== undefined) {
-                    this.getRecipiesList(this.queryStore.getQueryParams());
-                }
+    this._qpReactionName = reaction(
+        () => this.queryStore.getParam('search'),
+        (newSearch) => {
+            if (typeof newSearch === 'string') {
+                const queryParams = this.queryStore.getQueryParams();
+                this.getRecipiesList(this._convertToRecord(queryParams));
             }
-        );
+        }
+    );
 
-        this._qpReactionMealCategory = reaction(
-            () => this.queryStore.getParam('categories'),
-            (newCategory) => {
-                if (newCategory !== undefined) {
-                    this.getRecipiesList(this.queryStore.getQueryParams());
-                }
+    this._qpReactionMealCategory = reaction(
+        () => this.queryStore.getParam('categories'),
+        (newCategory) => {
+            if (typeof newCategory === 'string') {
+                const queryParams = this.queryStore.getQueryParams();
+                this.getRecipiesList(this._convertToRecord(queryParams));
             }
-        );
+        }
+    );
+}
+
+// Вспомогательный метод для преобразования ParsedQs в Record<string, string>
+private _convertToRecord(parsedQs: qs.ParsedQs): Record<string, string> {
+    const result: Record<string, string> = {};
+
+    for (const key in parsedQs) {
+        if (parsedQs.hasOwnProperty(key)) {
+            const value = parsedQs[key];
+            if (typeof value === 'string') {
+                result[key] = value;
+            } else if (Array.isArray(value)) {
+                result[key] = value.map(String).join(','); // Преобразуем массив в строку
+            } else if (value !== undefined && value !== null) {
+                result[key] = String(value); // Преобразуем любое другое значение в строку
+            }
+        }
     }
+
+    return result;
+}
 
 
     private _qpReactionPage: IReactionDisposer = reaction(() => { }, () => { });
