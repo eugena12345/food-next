@@ -1,4 +1,6 @@
 import { makeAutoObservable } from 'mobx';
+import QueryStore from '~/stores/RootStore/QueryParamsStore/QueryParamsStore';
+import ApiStore from '../ApiStore';
 export class RootStore {
   someData: string = '';
   query: QueryStore;
