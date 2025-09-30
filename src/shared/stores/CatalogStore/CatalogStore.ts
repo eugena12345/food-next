@@ -1,12 +1,11 @@
 import { makeObservable, observable, computed, action, reaction, runInAction, IReactionDisposer } from 'mobx';
 import { getInitialCollectionModel } from '~/stores/models/shared/collection';
 import { Meta, metaInfoInitial } from '~/stores/CatalogStore';
-
 import ApiStore, { HTTPMethod } from '~/shared/stores/ApiStore';
 import QueryStore from '~/shared/stores/RootStore/QueryParamsStore/QueryParamsStore';
-import type { Recipe } from "~/stores/models/recepies";
 import type { ParamsFromQuery, PrivateFields } from "~/stores/CatalogStore";
 import { createParamsForApi } from '~/utils/api';
+import { Recipe } from '~/shared/types/recepies';
 
 
 
@@ -51,8 +50,30 @@ export default class CatalogStore {
         return this._metaInfo;
     }
 
-    static async getInitialData(apiStore: ApiStore, queryParams: Record<string, string>): Promise<Recipe[]> {
-        //console.log('getInitialData queryParams', queryParams)
+    // static async getInitialData(apiStore: ApiStore, queryParams: ParamsFromQuery): Promise<Recipe[]> {
+    //     //console.log('getInitialData queryParams', queryParams)
+    //     const paramsForApi = createParamsForApi(queryParams);
+
+    //     try {
+    //         const response = await apiStore.request({
+    //             method: HTTPMethod.GET,
+    //             endpoint: '/recipes',
+    //             params: paramsForApi,
+    //             headers: {}, 
+    //             data: undefined,
+    //         });
+
+    //         return response.data || [];
+    //     } catch (error) {
+    //         console.error('Failed to fetch initial data:', error);
+    //         return [];
+    //     }
+    // }
+
+    static async getInitialData(
+        apiStore: ApiStore,
+        queryParams: ParamsFromQuery // Используйте правильный тип
+    ): Promise<Recipe[]> {
         const paramsForApi = createParamsForApi(queryParams);
 
         try {
@@ -60,15 +81,16 @@ export default class CatalogStore {
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
                 params: paramsForApi,
+                headers: {}, // Добавьте headers
+                data: undefined, // Добавьте data
             });
 
-            return response.data || [];
+            return response.data as Recipe[] || [];
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
             return [];
         }
     }
-
 
     async getRecipiesList(queryParams: Record<string, string>) {
         this._meta = Meta.loading;
@@ -77,23 +99,26 @@ export default class CatalogStore {
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
                 params: queryParams,
+                headers: {},
+                data: undefined,
+
             });
 
             runInAction(() => {
-                this._recepies = response.data || [];
+                this._recepies = response.data as Recipe[] || [];
                 this._meta = Meta.success;
-                this._metaInfo = response.meta || metaInfoInitial;
+                //this._metaInfo = response.meta || metaInfoInitial;
             });
         } catch (error) {
             runInAction(() => {
                 this._meta = Meta.error;
-                this._metaInfo = { message: 'Failed to load recipes' };
+                //this._metaInfo = { message: 'Failed to load recipes' };
             });
         }
     }
 
     reset(): void {
-        this._recepies = getInitialCollectionModel();
+        this._recepies = [];//getInitialCollectionModel();
         this._meta = Meta.initial;
         this._metaInfo = metaInfoInitial;
     }
@@ -133,6 +158,7 @@ export default class CatalogStore {
             }
         );
     }
+
 
     private _qpReactionPage: IReactionDisposer = reaction(() => { }, () => { });
     private _qpReactionName: IReactionDisposer = reaction(() => { }, () => { });
