@@ -9,7 +9,7 @@ export default class ApiStore implements IApiStore {
         this.baseUrl = baseUrl;
     }
 
-    private _getRequestData<ReqT>(params: RequestParams<ReqT>): RequestInit {
+    private _getRequestData<ReqT>(params: RequestParams<ReqT>): { url: string; options: RequestInit } {
         const endpoint = `${this.baseUrl}${params.endpoint}`;
         const options: RequestInit = {
             method: params.method,
@@ -19,9 +19,8 @@ export default class ApiStore implements IApiStore {
         if (params.method === HTTPMethod.GET) {
             const urlParams = qs.stringify(params.params, { encode: true });
             return {
-                ...options,
-                method: HTTPMethod.GET,
                 url: `${endpoint}?${urlParams}`,
+                options,
             };
         }
 
@@ -33,16 +32,16 @@ export default class ApiStore implements IApiStore {
             options.body = JSON.stringify(params.data);
         }
 
-        return { url: endpoint, ...options };
+        return { url: endpoint, options };
     }
 
     async request<SuccessT, ErrorT = unknown, ReqT = Record<string, unknown>>(
         params: RequestParams<ReqT>
     ): Promise<ApiResponse<SuccessT, ErrorT>> {
-        //console.log('request params', params)
         try {
-            const { url, ...requestOptions } = this._getRequestData(params);
-            const response = await fetch(url, requestOptions);
+            const { url, options } = this._getRequestData(params);
+            const response = await fetch(url, options);
+
             if (!response.ok) {
                 const errorData = await response.json();
                 return {
