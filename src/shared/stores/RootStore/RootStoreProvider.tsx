@@ -1,6 +1,6 @@
 'use client'; 
 import React from 'react';
-import { useCreateRootStore, RootStoreInitData } from './createStore';
+import { useCreateRootStore } from './createStore';
 import { useStrictContext } from './useStrictContext';
 import { RootStore, RootStoreInitData } from './RootStore';
 
