@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import type { PrivateFields } from "~/stores/MealCategoryStore/types";
 import { STRAPI_URL } from "~/stores/CatalogStore";
 import ApiStore, { HTTPMethod } from "~/stores/ApiStore";
-import type { MealCategory } from "~/stores/models/recepies";
+// import type { MealCategory } from "~/stores/models/recepies";
 import type { CollectionModel } from '~/stores/models/shared/collection';
 import {
     getInitialCollectionModel,
@@ -12,6 +12,7 @@ import {
 import { createCategoryParamsForApi } from "~/utils/api";
 import type { Option } from "~/components/MultiDropdown";
 import CatalogFiltersStore from "~/stores/CatalogStore/CatalogFiltersStore/CatalogFiltersStore";
+import { MealCategory } from "~/shared/types/recepies";
 
 export default class MealCategoryStore {
     private readonly _apiStore = new ApiStore(STRAPI_URL);
@@ -99,6 +100,8 @@ export default class MealCategoryStore {
             params: createCategoryParamsForApi(),
 
             endpoint: '/meal-categories',
+            headers: {}, // Добавьте headers
+            data: {} as Record<string, unknown>, // Добавьте data
         });
         runInAction(() => {
             if (response.success) {
