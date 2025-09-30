@@ -6,7 +6,12 @@ import classNames from 'classnames';
 const Text: React.FC<TextProps> = ({
     className, view, tag = 'p', weight, children, color, maxLines = 100
 }) => {
-    const actualClassName = classNames(className, styles[view], styles[weight], styles[color]);
+    const actualClassName = classNames(className,
+        view && styles[view],
+        weight && styles[weight],
+        color && styles[color]
+        // styles[view], styles[weight], styles[color]
+    );
 
     const style: React.CSSProperties = {
         overflow: 'hidden',
