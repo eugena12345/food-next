@@ -2,7 +2,6 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import type { PrivateFields } from "~/stores/MealCategoryStore/types";
 import { STRAPI_URL } from "~/stores/CatalogStore";
 import ApiStore, { HTTPMethod } from "~/stores/ApiStore";
-// import type { MealCategory } from "~/stores/models/recepies";
 import type { CollectionModel } from '~/stores/models/shared/collection';
 import {
     getInitialCollectionModel,

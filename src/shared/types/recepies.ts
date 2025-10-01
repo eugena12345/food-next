@@ -71,16 +71,3 @@ export interface FavRecipe {
     recipe: Recipe;
     updatedAt: string;
 }
-
-// export type MealCategory = {
-
-//     id: number,
-//     documentId: string,
-//     title: string,
-//     createdAt: string,
-//     updatedAt: string,
-//     publishedAt: string,
-//     image: {
-//         url: string,
-//     }
-// }

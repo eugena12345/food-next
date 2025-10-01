@@ -1,13 +1,10 @@
 import styles from './CatalogFilters.module.scss';
 //TODO import Button from '~components/Button';
-//TODO import Text from '~components/Text';
 import SearchFilter from '~/components/CatalogFilters/SearchFilter';
 import CategoriesFilter from '~/components/CatalogFilters/CategoriesFilter';
 
 const CatalogFilters = () => {
-    //TODO const resetFilters = () => {
-    //     console.log('reset filter. code it')
-    // }
+    //TODO const resetFilters = () => { }
     return (
         <div className={styles.container}>
             <SearchFilter />

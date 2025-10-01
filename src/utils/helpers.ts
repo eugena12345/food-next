@@ -1,5 +1,3 @@
-//import type { Ingredient } from '~store/models/recepies';
-
 import { Ingredient } from "~/shared/types/recepies";
 
 export const getNumberCountArr = (pageCount: number): number[] => {
