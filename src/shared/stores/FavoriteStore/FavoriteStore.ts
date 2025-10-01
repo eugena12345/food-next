@@ -69,7 +69,11 @@ export default class FavoriteStore {
     async addFavoriteRecipe(
         id: number
     ): Promise<void> {
-        const token = localStorage.getItem('JWT');
+        let token: string | null = null;
+        if (typeof window !== 'undefined') {
+            token = localStorage.getItem('JWT');
+        }
+
 
         try {
             const response = await this._apiStore.request({

@@ -11,10 +11,17 @@ export default class AuthStore {
     private _repeatPassword: string = '';
     private _error: string | null = null;
     private _isLoading: boolean = false;
-    private _isAuthenticated: boolean = !!localStorage.getItem('JWT');
+    //private _isAuthenticated: boolean = !!localStorage.getItem('JWT');
+    private _isAuthenticated: boolean;
+
 
 
     constructor() {
+
+        this._isAuthenticated = typeof window !== 'undefined'
+            ? !!localStorage.getItem('JWT')
+            : false;
+
         makeObservable<AuthStore, PrivateFields>(this, {
             _identifier: observable,
             _email: observable,
