@@ -8,6 +8,7 @@ import heartSvg from './../../../../public/images/HeartIcon.svg';
 import logoutImg from './../../../../public/images/logout.png';
 import { routes } from '~/shared/config/routes.config';
 import { authStore } from '~/shared/stores/AuthStore';
+import { observer } from 'mobx-react-lite';
 
 const UserStatusActions = () => {
   const router = useRouter(); 
@@ -24,7 +25,7 @@ const UserStatusActions = () => {
   const handleLogout = useCallback(() => {
     logoutAction();
     router.push(routes.main.create()); 
-  }, [logoutAction, router]); //logoutAction, router
+  }, [logoutAction, router]); 
 
   return (
     <>
@@ -59,4 +60,4 @@ const UserStatusActions = () => {
   );
 };
 
-export default memo(UserStatusActions);
+export default observer(UserStatusActions);
