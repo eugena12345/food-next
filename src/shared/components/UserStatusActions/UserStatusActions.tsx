@@ -6,12 +6,12 @@ import { memo, useCallback } from 'react';
 import { useRouter } from 'next/navigation'; 
 import heartSvg from './../../../../public/images/HeartIcon.svg';
 import logoutImg from './../../../../public/images/logout.png';
-// import { authStore } from '~/shared/stores/authStore'; 
 import { routes } from '~/shared/config/routes.config';
+import { authStore } from '~/shared/stores/AuthStore';
 
 const UserStatusActions = () => {
   const router = useRouter(); 
-//   const { isAuthenticated, logout: logoutAction } = authStore;
+   const { isAuthenticated, logout: logoutAction } = authStore;
 
   const goToLogin = useCallback(() => {
     router.push(routes.login.create());
@@ -22,13 +22,13 @@ const UserStatusActions = () => {
   }, [router]);
 
   const handleLogout = useCallback(() => {
-    // logoutAction();
+    logoutAction();
     router.push(routes.main.create()); 
-  }, []); //logoutAction, router
+  }, [logoutAction, router]); //logoutAction, router
 
   return (
     <>
-      {/* {isAuthenticated && ( */}
+      {isAuthenticated && (
         <>
           <Image
             src={heartSvg}
@@ -36,7 +36,7 @@ const UserStatusActions = () => {
             className={styles.userInfo}
             onClick={goToFavorite}
           />
-          {/* <div>{localStorage.getItem('username')}</div> */}
+          <div>{localStorage.getItem('username')}</div>
           <Image
             src={logoutImg}
             alt="logout"
@@ -44,17 +44,17 @@ const UserStatusActions = () => {
             onClick={handleLogout}
           />
         </>
-      {/* )} */}
-      {/* {!isAuthenticated && ( 
+      )} 
+      {!isAuthenticated && ( 
         <Image
-          src="/images/User.svg" // Используем публичные статические файлы
+          src="/images/User.svg"
           alt="userSvg"
           width={24}
           height={24}
           className={styles.userInfo}
           onClick={goToLogin}
         />
-       )} */}
+       )}
     </>
   );
 };

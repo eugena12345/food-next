@@ -28,11 +28,11 @@ export const routes = {
     create: () => `/favorite`,
   },
   login: {
-    mask: "/login",
-    create: () => `/login`,
+    mask: "/authorization",
+    create: () => `/authorization`,
   },
   registration: {
-    mask: "/registration",
-    create: () => `/registration`,
+    mask: "/authorization",
+    create: () => `/authorization`,
   },
 }

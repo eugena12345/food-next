@@ -39,10 +39,10 @@ export default class AuthStore {
             isLoading: computed,
             isAuthenticated: computed,
 
-            authorize: action,
-            //register: action,
-            logout: action,
-            reset: action,
+            authorize: action.bound,
+            register: action.bound,
+            logout: action.bound,
+            reset: action.bound,
         })
     }
     get identifier() {
@@ -187,8 +187,12 @@ export default class AuthStore {
     }
 
     logout(): void {
-        localStorage.removeItem('JWT');
-        localStorage.removeItem('username');
+        console.log('logout')
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('JWT');
+            localStorage.removeItem('username');
+        }
+        console.log('this', this)
         this._isAuthenticated = false;
         this.reset();
     }
