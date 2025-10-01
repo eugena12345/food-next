@@ -1,18 +1,27 @@
-'use client'; 
+'use client';
 
 import styles from './UserStatusActions.module.scss';
 import Image from 'next/image';
-import { memo, useCallback } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { memo, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import heartSvg from './../../../../public/images/HeartIcon.svg';
 import logoutImg from './../../../../public/images/logout.png';
+import userSvg from './../../../../public/images/User.svg';
 import { routes } from '~/shared/config/routes.config';
 import { authStore } from '~/shared/stores/AuthStore';
 import { observer } from 'mobx-react-lite';
 
 const UserStatusActions = () => {
-  const router = useRouter(); 
-   const { isAuthenticated, logout: logoutAction } = authStore;
+  const router = useRouter();
+  const { isAuthenticated, logout: logoutAction } = authStore;
+
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUsername(localStorage.getItem('username') || '');
+    }
+  }, []);
 
   const goToLogin = useCallback(() => {
     router.push(routes.login.create());
@@ -24,12 +33,12 @@ const UserStatusActions = () => {
 
   const handleLogout = useCallback(() => {
     logoutAction();
-    router.push(routes.main.create()); 
-  }, [logoutAction, router]); 
+    router.push(routes.main.create());
+  }, [logoutAction, router]);
 
   return (
     <>
-      {isAuthenticated && (
+      {/* {isAuthenticated && ( */}
         <>
           <Image
             src={heartSvg}
@@ -37,7 +46,7 @@ const UserStatusActions = () => {
             className={styles.userInfo}
             onClick={goToFavorite}
           />
-          <div>{localStorage.getItem('username')}</div>
+          <div suppressHydrationWarning>{username}</div>
           <Image
             src={logoutImg}
             alt="logout"
@@ -45,19 +54,19 @@ const UserStatusActions = () => {
             onClick={handleLogout}
           />
         </>
-      )} 
-      {!isAuthenticated && ( 
+      {/* )} */}
+      {/* {!isAuthenticated && ( */}
         <Image
-          src="/images/User.svg"
+          src={userSvg}
           alt="userSvg"
           width={24}
           height={24}
           className={styles.userInfo}
           onClick={goToLogin}
         />
-       )}
+      {/* )} */}
     </>
   );
 };
 
-export default observer(UserStatusActions);
+export default UserStatusActions;

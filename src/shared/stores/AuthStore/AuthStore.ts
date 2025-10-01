@@ -11,10 +11,7 @@ export default class AuthStore {
     private _repeatPassword: string = '';
     private _error: string | null = null;
     private _isLoading: boolean = false;
-    //private _isAuthenticated: boolean = !!localStorage.getItem('JWT');
     private _isAuthenticated: boolean;
-
-
 
     constructor() {
 
@@ -45,6 +42,7 @@ export default class AuthStore {
             reset: action.bound,
         })
     }
+
     get identifier() {
         return this._identifier;
     }
@@ -165,12 +163,10 @@ export default class AuthStore {
                 },
             });
 
-
             runInAction(() => {
                 if (response.status === 200) {
                     if (typeof window !== 'undefined') {
                         const data = response.data as LoginResponse;
-                        console.log('register data', data)
 
                         localStorage.setItem('username', this._identifier);
                         localStorage.setItem('JWT', data.jwt);
@@ -187,12 +183,10 @@ export default class AuthStore {
     }
 
     logout(): void {
-        console.log('logout')
         if (typeof window !== 'undefined') {
             localStorage.removeItem('JWT');
             localStorage.removeItem('username');
         }
-        console.log('this', this)
         this._isAuthenticated = false;
         this.reset();
     }

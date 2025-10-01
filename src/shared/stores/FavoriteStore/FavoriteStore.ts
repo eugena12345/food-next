@@ -7,7 +7,7 @@ import {
     normalizeCollection,
     linearizeCollection
 } from '~/stores/models/shared/collection';
-import { FavRecipe } from "~/shared/types/recepies";
+import { FavRecipe, Recipe } from "~/shared/types/recepies";
 import ApiStore, { HTTPMethod } from "../ApiStore";
 
 export default class FavoriteStore {
@@ -21,10 +21,10 @@ export default class FavoriteStore {
             _meta: observable,
             favoriteRecepies: computed,
             meta: computed,
-            //getFavoriteRecipiesList: action,
-            addFavoriteRecipe: action,
-            //deleteFavoriteRecipe: action,
-            reset: action,
+            getFavoriteRecipiesList: action.bound,
+            addFavoriteRecipe: action.bound,
+            deleteFavoriteRecipe: action.bound,
+            reset: action.bound,
         })
     }
 
@@ -36,44 +36,52 @@ export default class FavoriteStore {
         return this._meta;
     }
 
-    // async getFavoriteRecipiesList(
-    // ): Promise<void> {
-    //     this._meta = Meta.loading;
-    //     this._favoriteRecepies = getInitialCollectionModel();
+    async getFavoriteRecipiesList(
+    ): Promise<void> {
+        this._meta = Meta.loading;
+        this._favoriteRecepies = getInitialCollectionModel();
 
-    //     //TODO const token = localStorage.getItem('JWT')
+        let token: string | null = null;
+        if (typeof window !== 'undefined') {
+            token = localStorage.getItem('JWT');
+        }
+        try {
+            const response = await this._apiStore.request({
+                method: HTTPMethod.GET,
+                endpoint: '/favorites',
+                //params: paramsForApi,
+                headers: {
+                    Authorization: `Bearer ${token}`,
 
 
+                },
+                data: {},
+            });
 
-    //     const response = await axios.get(
-    //         `${STRAPI_URL}/favorites`,
-    //         {
-    //             headers: {
-    //                 Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-    //                 //TODO `Bearer ${token}`,
-    //             },
-    //         }
-    //     );
+            runInAction(() => {
+                if (response.status === 200) {
 
-    //     runInAction(() => {
-    //         if (response.status === 200) {
-    //             this._favoriteRecepies = normalizeCollection(response.data, (el) => el.id);
-    //             this._meta = Meta.success;
-    //             return;
-    //         } else {
-    //             this._meta = Meta.error;
-    //         }
-    //     })
-    // }
+                    this._favoriteRecepies = normalizeCollection(response.data as FavRecipe[], (el) => el.id);
+                    this._meta = Meta.success;
+                    return;
+                } else {
+                    this._meta = Meta.error;
+                }
+            })
+
+        } catch (error) {
+            console.error('Failed to fetch initial data:', error);
+        }
+    }
 
     async addFavoriteRecipe(
         id: number
     ): Promise<void> {
         let token: string | null = null;
+
         if (typeof window !== 'undefined') {
             token = localStorage.getItem('JWT');
         }
-
 
         try {
             const response = await this._apiStore.request({
@@ -88,37 +96,43 @@ export default class FavoriteStore {
                 data: { recipe: id },
             });
 
-            console.log('response добавить рецепт в избранное', response)
-
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
         }
 
     }
 
-    // async deleteFavoriteRecipe(
-    //     e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number
-    // ): Promise<void> {
-    //     e.stopPropagation();
-    //     const token = localStorage.getItem('JWT');
-    //     try {
-    //         const response = await axios.post(
-    //             `${STRAPI_URL}/favorites/remove`,
-    //             { recipe: id },
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                 },
-    //             }
-    //         );
-    //         if (response.status === 200) {
-    //             this.getFavoriteRecipiesList();
-    //         }
-    //     } catch (error) {
-    //         console.error('Error details:', error.response?.data);
-    //         console.error('Status code:', error.response?.status);
-    //     }
-    // }
+    async deleteFavoriteRecipe(
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number
+    ): Promise<void> {
+        e.stopPropagation();
+        let token: string | null = null;
+
+        if (typeof window !== 'undefined') {
+            token = localStorage.getItem('JWT');
+        }
+
+        try {
+            const response = await this._apiStore.request({
+                method: HTTPMethod.POST,
+                endpoint: '/favorites/remove',
+                //params: paramsForApi,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+
+
+                },
+                data: { recipe: id },
+            });
+
+            this.getFavoriteRecipiesList();
+
+
+        } catch (error) {
+            console.error('Failed to fetch initial data:', error);
+        }
+
+    }
 
     reset(): void {
         this._favoriteRecepies = getInitialCollectionModel();
