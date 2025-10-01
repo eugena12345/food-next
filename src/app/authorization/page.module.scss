@@ -1,0 +1,81 @@
+  @use './../../shared/styles/variables.module.scss' as vars;
+//  //@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+ .container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     background-color: #FFC0763B;
+     font-family: "Poppins", sans-serif;
+ }
+
+ .container--withMax {
+     max-width: 400px;
+     width: 100%;
+     padding: 20px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     background-color: white;
+     border-radius: 8px;
+ }
+
+ .authForm {
+     display: flex;
+     flex-direction: column;
+     gap: 16px;
+ }
+
+ .label {
+     font-size: 14px;
+ }
+
+ .element {
+     padding: 10px;
+     font-size: 16px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     transition: border-color 0.3s ease;
+
+     &:focus {
+         border-color: vars.$color-brand;
+         outline: none;
+     }
+ }
+
+ .error {
+     color: vars.$error-color;
+     font-size: 14px;
+     text-align: center;
+ }
+
+ .switchMode {
+     text-align: center;
+     margin-top: 16px;
+
+     .message {
+         font-size: 14px;
+
+         .linkButton {
+             color: vars.$color-brand;
+             background: none;
+             border: none;
+             cursor: pointer;
+             font-weight: 600;
+
+             &:hover {
+                 text-decoration: underline;
+             }
+         }
+     }
+ }
+
+ @media (max-width: 600px) {
+     .container--withMax {
+         padding: 16px;
+     }
+
+     .element,
+     .linkButton {
+         font-size: 14px;
+     }
+ }

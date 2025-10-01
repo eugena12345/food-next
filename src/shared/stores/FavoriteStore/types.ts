@@ -1,0 +1,1 @@
+export type PrivateFields = '_favoriteRecepies' | '_meta';

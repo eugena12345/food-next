@@ -40,6 +40,7 @@ export default class ApiStore implements IApiStore {
     ): Promise<ApiResponse<SuccessT, ErrorT>> {
         try {
             const { url, options } = this._getRequestData(params);
+
             const response = await fetch(url, options);
 
             if (!response.ok) {
@@ -52,10 +53,12 @@ export default class ApiStore implements IApiStore {
             }
 
             const responseData = await response.json();
+            const data = responseData.jwt ? responseData : responseData?.data;
 
             return {
                 success: true,
-                data: responseData?.data || null,
+                data: data || null,
+                //responseData?.data || null,
                 meta: responseData?.meta || null,
                 status: response.status,
             };

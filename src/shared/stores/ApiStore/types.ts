@@ -48,6 +48,12 @@ export type ApiResponse<SuccessT, ErrorT> =
         success: false;
         data: null;
         status: StatusHTTP;
+    }
+    | {
+        success: true,
+        data: SuccessT,
+        meta: null,
+        status: StatusHTTP,
     };
 
 export interface IApiStore {

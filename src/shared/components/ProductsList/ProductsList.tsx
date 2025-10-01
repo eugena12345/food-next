@@ -12,6 +12,8 @@ import InfoCard from '../InfoCard';
 import { getIngradientsString } from '~/utils/helpers';
 import Button from '../Button';
 import Text from '~/components/Text';
+import { useCallback } from 'react';
+import FavoriteStore from '~/shared/stores/FavoriteStore';
 
 interface ProductsListProps {
   initData: Recipe[];
@@ -25,6 +27,15 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
       rootStore.apiStore,
       initData,
     ));
+  const favoriteStore = useLocalStore(() => new FavoriteStore());
+
+  const addFavRecipe = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, recipeId: number) => {
+      e.preventDefault();
+      e.stopPropagation();
+      favoriteStore.addFavoriteRecipe(recipeId);
+    }, [favoriteStore])
+
 
 
   return (
@@ -47,8 +58,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
               itemDocumentId={rec.documentId}
               contentSlot={`${Math.round(rec.calories)} kcal`}
               actionSlot={
-                <Button
-                //  onClick={(e) => addFavRecipe(e, rec.id)}
+                <Button onClick={(e) => addFavRecipe(e, rec.id)}
                 >
                   Save
                 </Button>
