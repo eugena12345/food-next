@@ -97,7 +97,7 @@ const LoginPage = () => {
                     <div className={styles.switchMode}>
                         {mode === "login" ? (
                             <p className={styles.message}>
-                                Don't have an account?{" "}
+                                Do not have an account?{" "}
                                 <button className={styles.linkButton} type="button" onClick={() => setMode("register")}>
                                     Register
                                 </button>
