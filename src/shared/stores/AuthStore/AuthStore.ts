@@ -112,9 +112,12 @@ export default class AuthStore {
 
             runInAction(() => {
                 if (response.status === 200) {
-                    const data = response.data as LoginResponse;
-                    localStorage.setItem('username', this._identifier);
-                    localStorage.setItem('JWT', data.jwt);
+                    if (typeof window !== 'undefined') {
+                        const data = response.data as LoginResponse;
+                        localStorage.setItem('username', this._identifier);
+                        localStorage.setItem('JWT', data.jwt);
+                    }
+
                     this._isAuthenticated = true;
                     return;
                 }
@@ -158,12 +161,13 @@ export default class AuthStore {
 
             runInAction(() => {
                 if (response.status === 200) {
+                    if (typeof window !== 'undefined') {
+                        const data = response.data as LoginResponse;
+                        console.log('register data', data)
 
-                    const data = response.data as LoginResponse;
-                    console.log('register data', data)
-
-                    localStorage.setItem('username', this._identifier);
-                    localStorage.setItem('JWT', data.jwt);
+                        localStorage.setItem('username', this._identifier);
+                        localStorage.setItem('JWT', data.jwt);
+                    }
                     this._isAuthenticated = true;
                     return;
                 }
