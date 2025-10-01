@@ -72,7 +72,6 @@ const FavoritePage = () => {
             </div>
         </div>
     )
-    // return <h1>FavoritePage</h1>
 };
 
 export default observer(FavoritePage);

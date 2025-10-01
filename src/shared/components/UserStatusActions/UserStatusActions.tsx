@@ -70,3 +70,4 @@ const UserStatusActions = () => {
 };
 
 export default UserStatusActions;
+//было memo и observer но что-то пошло не так
