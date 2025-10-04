@@ -42,7 +42,7 @@ const FavoritePage = () => {
 
                     {favoriteStore.meta === Meta.loading && <Loader />}
 
-                    <div className={styles[`container__products`]}>
+                    <div className={styles.container__products}>
                         {favoriteStore.favoriteRecepies.length > 0 && favoriteStore.favoriteRecepies.map(rec => {
                             return (
                                 <Link href={routes.recipe.create(rec.recipe.documentId)} key={rec.id} className={styles.link}>

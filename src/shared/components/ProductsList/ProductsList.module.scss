@@ -1,8 +1,5 @@
 @use './../../styles//variables.module.scss' as vars;
 
-
-
-
 .container {
   width: 100%;
   display: flex;
@@ -32,6 +29,7 @@
     justify-content: space-around;
     width: 100%;
     align-items: stretch;
+    gap: vars.$spaceL;
   }
 }
 
