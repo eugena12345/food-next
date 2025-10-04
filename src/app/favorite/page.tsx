@@ -36,7 +36,9 @@ const FavoritePage = () => {
     return (
         <div>
             <div className={styles.container}>
+                <div className={styles.titleFav}>
                 <Text tag="h1" color="accent">Favorite recipes</Text>
+                </div>
                 <div className={styles[`container--maxWidth`]}>
                     {favoriteStore.meta === Meta.error && <div className={styles.error}>Возникла непредвиденная ошибка. Не удалось загрузить данные. Попробуйте позже.</div>}
 
