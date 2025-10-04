@@ -54,8 +54,8 @@ const UserStatusActions = () => {
             onClick={handleLogout}
           />
         </>
-      {/* )} */}
-      {/* {!isAuthenticated && ( */}
+      {/* )}
+      {!isAuthenticated && ( */}
         <Image
           src={userSvg}
           alt="userSvg"
@@ -69,5 +69,5 @@ const UserStatusActions = () => {
   );
 };
 
-export default UserStatusActions;
+export default observer(UserStatusActions);
 //было memo и observer но что-то пошло не так

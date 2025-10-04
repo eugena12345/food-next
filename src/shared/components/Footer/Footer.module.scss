@@ -1,0 +1,102 @@
+@use './../../styles/variables.module.scss' as vars;
+
+.footer {
+    height: 80px;
+    background-color: #f1d5b9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    bottom: -2px;
+    left: 0;
+    z-index: 10;
+}
+
+.content {
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.quoteSection {
+    width: 60%;
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote {
+    font-size: 18px;
+    color: #000;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    white-space: normal;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+}
+
+.quote.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.eugena {
+    width: 30%;
+    font-size: 20px;
+    background: linear-gradient(90deg, #FF5733, #FFC300, #442710, #6f4e01);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradient-animation 4s ease infinite;
+    padding-left: 5px;
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.socialIcons {
+    display: flex;
+    gap: 15px;
+    font-size: 24px;
+}
+
+@media (max-width: 600px) {
+    .quote {
+        font-size: 12px;
+    }
+
+    .eugena {
+        font-size: 14px;
+    }
+
+    .socialIcons {
+        gap: 5px;
+        flex-wrap: wrap;
+
+    }
+}
