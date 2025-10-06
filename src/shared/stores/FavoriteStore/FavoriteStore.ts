@@ -42,10 +42,7 @@ export default class FavoriteStore {
         this._meta = Meta.loading;
         this._favoriteRecepies = getInitialCollectionModel();
 
-        // let token: string | null = null;
-        // if (typeof window !== 'undefined') {
         const token = Cookies.get("JWT");
-        // }
         try {
             const response = await this._apiStore.request({
                 method: HTTPMethod.GET,
@@ -78,14 +75,7 @@ export default class FavoriteStore {
     async addFavoriteRecipe(
         id: number
     ): Promise<void> {
-        // let token: string | null = null;
-
-        // if (typeof window !== 'undefined') {
-        // token = localStorage.getItem('JWT');
         const token = Cookies.get("JWT");
-
-        //}
-
         try {
             const response = await this._apiStore.request({
                 method: HTTPMethod.POST,
@@ -109,11 +99,7 @@ export default class FavoriteStore {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number
     ): Promise<void> {
         e.stopPropagation();
-        // let token: string | null = null;
-
-        // if (typeof window !== 'undefined') {
-        //     token = localStorage.getItem('JWT');
-        // }
+        e.preventDefault();
         const token = Cookies.get("JWT");
 
 
@@ -124,8 +110,6 @@ export default class FavoriteStore {
                 //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
-
-
                 },
                 data: { recipe: id },
             });
@@ -143,11 +127,6 @@ export default class FavoriteStore {
         apiStore: ApiStore,
 
     ): Promise<FavRecipe[]> {
-
-        // let token: string | null = null;
-        // if (typeof window !== 'undefined') {
-        //     token = localStorage.getItem('JWT');
-        // }
         const token = Cookies.get("JWT");
 
         try {
@@ -161,32 +140,11 @@ export default class FavoriteStore {
                 data: {},
             });
             return response.data as FavRecipe[] || [];
-
-
-
-
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
             return [];
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     reset(): void {
         this._favoriteRecepies = getInitialCollectionModel();
