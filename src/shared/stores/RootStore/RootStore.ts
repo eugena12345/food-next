@@ -1,16 +1,21 @@
 import { makeAutoObservable } from 'mobx';
 import QueryStore from '~/stores/RootStore/QueryParamsStore/QueryParamsStore';
 import ApiStore from '../ApiStore';
+import AuthStore from '../AuthStore/AuthStore';
 export class RootStore {
   someData: string = '';
   query: QueryStore;
   apiStore: ApiStore;
+  authStore: AuthStore;
+  token?: string;
 
-  constructor(queryStore: QueryStore, apiStore: ApiStore, initialData?: Partial<RootStore>) {
+  constructor(queryStore: QueryStore, apiStore: ApiStore, authStore: AuthStore, initialData?: Partial<RootStore>) {
     makeAutoObservable(this);
 
     this.query = queryStore;
     this.apiStore = apiStore;
+    this.authStore = authStore;
+    this.token = initialData?.token;
 
     if (initialData) {
       Object.assign(this, initialData);
@@ -22,11 +27,19 @@ export class RootStore {
   }
 }
 
-export type RootStoreInitData = Partial<Omit<RootStore, 'query' | 'apiStore'>>;
+export type RootStoreInitData = Partial<Omit<RootStore, 'query' | 'apiStore'| 'authStore'>>;
 
-export function createRootStore(apiBaseUrl: string, initialData?: RootStoreInitData) {
-  const queryStore = new QueryStore();
-  const apiStore = new ApiStore(apiBaseUrl);
 
-  return new RootStore(queryStore, apiStore, initialData);
-}
+
+
+
+
+
+
+// export function createRootStore(apiBaseUrl: string, initialData?: RootStoreInitData) {
+//   const queryStore = new QueryStore();
+//   const apiStore = new ApiStore(apiBaseUrl);
+//   const authStore =  new AuthStore();
+
+//   return new RootStore(queryStore, apiStore, authStore, initialData);
+// }

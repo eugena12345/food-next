@@ -1,7 +1,8 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import type { LoginResponse, PrivateFields } from "~/stores/AuthStore";
 import { STRAPI_URL } from "~/stores/CatalogStore";
-import ApiStore, { HTTPMethod } from "../ApiStore";
+import ApiStore, { HTTPMethod, IApiStore } from "../ApiStore";
+import Cookies from "js-cookie";
 
 export default class AuthStore {
     private readonly _apiStore = new ApiStore(STRAPI_URL);
@@ -11,13 +12,13 @@ export default class AuthStore {
     private _repeatPassword: string = '';
     private _error: string | null = null;
     private _isLoading: boolean = false;
-    private _isAuthenticated: boolean;
+    private _isAuthenticated: boolean = false;
+    private _jwt: string | null = null;
 
-    constructor() {
+    constructor(token: string | undefined) {
 
-        this._isAuthenticated = typeof window !== 'undefined'
-            ? !!localStorage.getItem('JWT')
-            : false;
+        this._isAuthenticated = !!token;
+        this._jwt = token || null;
 
         makeObservable<AuthStore, PrivateFields>(this, {
             _identifier: observable,
@@ -27,6 +28,7 @@ export default class AuthStore {
             _error: observable,
             _isLoading: observable,
             _isAuthenticated: observable,
+            _jwt: observable,
 
             identifier: computed,
             email: computed,
@@ -66,6 +68,20 @@ export default class AuthStore {
     get isAuthenticated(): boolean {
         return this._isAuthenticated;;
     }
+    get jwt(): string | null {
+        return this._jwt;
+    }
+
+    setJwt(token: string): void {
+        this._jwt = token;
+        Cookies.set("JWT", token, { expires: 7 });
+    }
+
+    clearJwt(): void {
+        this._jwt = null;
+        Cookies.remove("JWT");
+    }
+
 
     setIdentifier(value: string) {
         this._identifier = value;
@@ -114,17 +130,13 @@ export default class AuthStore {
                     password,
                 },
             });
-
             runInAction(() => {
                 if (response.status === 200) {
-                    if (typeof window !== 'undefined') {
-                        const data = response.data as LoginResponse;
-                        localStorage.setItem('username', this._identifier);
-                        localStorage.setItem('JWT', data.jwt);
-                    }
-
+                    const data = response.data as LoginResponse;
+                    this.setJwt(data.jwt);
                     this._isAuthenticated = true;
-                    return;
+                } else {
+                    throw new Error("Login failed");
                 }
             })
 
@@ -164,15 +176,13 @@ export default class AuthStore {
             });
 
             runInAction(() => {
-                if (response.status === 200) {
-                    if (typeof window !== 'undefined') {
-                        const data = response.data as LoginResponse;
-
-                        localStorage.setItem('username', this._identifier);
-                        localStorage.setItem('JWT', data.jwt);
-                    }
+                 if (response.status === 200) {
+                    const data = response.data as LoginResponse;
+                    this.setJwt(data.jwt);
                     this._isAuthenticated = true;
                     return;
+                } else {
+                    throw new Error("Registration failed");
                 }
             })
         } catch (error) {
@@ -183,10 +193,7 @@ export default class AuthStore {
     }
 
     logout(): void {
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('JWT');
-            localStorage.removeItem('username');
-        }
+        this.clearJwt();
         this._isAuthenticated = false;
         this.reset();
     }
@@ -203,5 +210,3 @@ export default class AuthStore {
         this.reset();
     }
 };
-
-export const authStore = new AuthStore();

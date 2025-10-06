@@ -36,8 +36,6 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
       favoriteStore.addFavoriteRecipe(recipeId);
     }, [favoriteStore])
 
-
-
   return (
     <div className={styles.container__products}>
       {store.recepies.length === 0

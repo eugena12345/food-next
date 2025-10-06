@@ -7,7 +7,7 @@ import SearchInfo from "~/shared/components/SearchInfo";
 import CatalogFilters from "~/shared/components/CatalogFilters";
 import CatalogStore from "~/shared/stores/CatalogStore";
 import ApiStore from "~/shared/stores/ApiStore";
-
+ 
 export const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
 
 export default async function RecipesPage({ searchParams }: {

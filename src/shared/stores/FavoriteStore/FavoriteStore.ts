@@ -9,6 +9,7 @@ import {
 } from '~/stores/models/shared/collection';
 import { FavRecipe, Recipe } from "~/shared/types/recepies";
 import ApiStore, { HTTPMethod } from "../ApiStore";
+import Cookies from "js-cookie";
 
 export default class FavoriteStore {
     private readonly _apiStore = new ApiStore(STRAPI_URL);
@@ -41,10 +42,10 @@ export default class FavoriteStore {
         this._meta = Meta.loading;
         this._favoriteRecepies = getInitialCollectionModel();
 
-        let token: string | null = null;
-        if (typeof window !== 'undefined') {
-            token = localStorage.getItem('JWT');
-        }
+        // let token: string | null = null;
+        // if (typeof window !== 'undefined') {
+        const token = Cookies.get("JWT");
+        // }
         try {
             const response = await this._apiStore.request({
                 method: HTTPMethod.GET,
@@ -77,11 +78,13 @@ export default class FavoriteStore {
     async addFavoriteRecipe(
         id: number
     ): Promise<void> {
-        let token: string | null = null;
+        // let token: string | null = null;
 
-        if (typeof window !== 'undefined') {
-            token = localStorage.getItem('JWT');
-        }
+        // if (typeof window !== 'undefined') {
+        // token = localStorage.getItem('JWT');
+        const token = Cookies.get("JWT");
+
+        //}
 
         try {
             const response = await this._apiStore.request({
@@ -106,11 +109,13 @@ export default class FavoriteStore {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number
     ): Promise<void> {
         e.stopPropagation();
-        let token: string | null = null;
+        // let token: string | null = null;
 
-        if (typeof window !== 'undefined') {
-            token = localStorage.getItem('JWT');
-        }
+        // if (typeof window !== 'undefined') {
+        //     token = localStorage.getItem('JWT');
+        // }
+        const token = Cookies.get("JWT");
+
 
         try {
             const response = await this._apiStore.request({
@@ -133,6 +138,55 @@ export default class FavoriteStore {
         }
 
     }
+
+    static async getInitFavoriteRecipiesList(
+        apiStore: ApiStore,
+
+    ): Promise<FavRecipe[]> {
+
+        // let token: string | null = null;
+        // if (typeof window !== 'undefined') {
+        //     token = localStorage.getItem('JWT');
+        // }
+        const token = Cookies.get("JWT");
+
+        try {
+            const response = await apiStore.request({
+                method: HTTPMethod.GET,
+                endpoint: '/favorites',
+                //params: paramsForApi,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {},
+            });
+            return response.data as FavRecipe[] || [];
+
+
+
+
+        } catch (error) {
+            console.error('Failed to fetch initial data:', error);
+            return [];
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     reset(): void {
         this._favoriteRecepies = getInitialCollectionModel();

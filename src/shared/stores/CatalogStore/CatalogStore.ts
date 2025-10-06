@@ -59,10 +59,12 @@ export default class CatalogStore {
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
                 params: paramsForApi,
-                headers: {},
+                headers: {
+                  //  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                },
+                
                 data: undefined,
             });
-
             return response.data as Recipe[] || [];
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
@@ -81,6 +83,8 @@ export default class CatalogStore {
                 data: undefined,
 
             });
+
+            console.log('client getRecipiesList', response.data);
 
             runInAction(() => {
                 this._recepies = response.data as Recipe[] || [];
@@ -150,7 +154,7 @@ export default class CatalogStore {
                 if (typeof value === 'string') {
                     result[key] = value;
                 } else if (Array.isArray(value)) {
-                    result[key] = value.map(String).join(','); 
+                    result[key] = value.map(String).join(',');
                 } else if (value !== undefined && value !== null) {
                     result[key] = String(value);
                 }

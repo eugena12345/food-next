@@ -3,28 +3,29 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import styles from "./page.module.scss";
-import { authStore } from "~/stores/AuthStore";
 import { routes } from "~/config/routes.config";
 import Button from "~/components/Button";
 import Text from '~/components/Text';
 import { useRouter } from "next/navigation";
+import { useRootStore } from "~/shared/stores/RootStore/RootStoreProvider";
 
 type AuthMode = "login" | "register";
 
 const LoginPage = () => {
+    const rootStore = useRootStore();
     const router = useRouter()
     const [mode, setMode] = React.useState<AuthMode>("login");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (mode === "login") {
-            await authStore.authorize();
-            if (!authStore.error) {
+            await rootStore.authStore.authorize()
+            if (!rootStore.authStore.error) {
                 router.push(routes.favorite.create());
             }
         } else {
-            await authStore.register();
-            if (!authStore.error) {
+            await rootStore.authStore.register()
+            if (!rootStore.authStore.error) {
                 router.push(routes.favorite.create());
             }
         }
@@ -36,7 +37,8 @@ const LoginPage = () => {
                 <form className={styles.authForm} onSubmit={handleSubmit}>
                     <Text color="accent" tag="h2">{mode === "login" ? "Login" : "Register"}</Text>
 
-                    {authStore.error && <p className={styles.error}>{authStore.error}</p>}
+                    {rootStore.authStore.error && <p className={styles.error}>{rootStore.authStore.error}</p>}
+
 
                     <label className={styles.label} htmlFor="identifier">Username</label>
                     <input
@@ -45,8 +47,8 @@ const LoginPage = () => {
                         name="identifier"
                         type="text"
                         placeholder="type name"
-                        value={authStore.identifier}
-                        onChange={(e) => authStore.setIdentifier(e.target.value)}
+                        value={rootStore.authStore.identifier}
+                        onChange={(e) => rootStore.authStore.setIdentifier(e.target.value)}
                     />
 
                     {mode === "register" && (
@@ -58,8 +60,8 @@ const LoginPage = () => {
                                 name="email"
                                 type="email"
                                 placeholder="email"
-                                value={authStore.email}
-                                onChange={(e) => authStore.setEmail(e.target.value)}
+                                value={rootStore.authStore.email}
+                                onChange={(e) => rootStore.authStore.setEmail(e.target.value)}
                             />
                         </>
                     )}
@@ -71,8 +73,8 @@ const LoginPage = () => {
                         name="password"
                         type="password"
                         placeholder="type password"
-                        value={authStore.password}
-                        onChange={(e) => authStore.setPassword(e.target.value)}
+                        value={rootStore.authStore.password}
+                        onChange={(e) => rootStore.authStore.setPassword(e.target.value)}
                     />
 
                     {mode === "register" && (
@@ -84,14 +86,17 @@ const LoginPage = () => {
                                 name="repeatPassword"
                                 type="password"
                                 placeholder="repeat password"
-                                value={authStore.repeatPassword}
-                                onChange={(e) => authStore.setRepeatPassword(e.target.value)}
+                                value={rootStore.authStore.repeatPassword}
+                                onChange={(e) => rootStore.authStore.setRepeatPassword(e.target.value)}
                             />
                         </>
                     )}
 
-                    <Button type="submit" disabled={authStore.isLoading}>
-                        {authStore.isLoading ? "Processing..." : mode === "login" ? "Login" : "Register"}
+                    <Button type="submit"
+                        disabled={rootStore.authStore.isLoading}>
+
+                        {rootStore.authStore.isLoading ? "Processing..." : mode === "login" ? "Login" : "Register"}
+
                     </Button>
 
                     <div className={styles.switchMode}>
