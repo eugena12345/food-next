@@ -17,22 +17,22 @@ export const routes = {
   },
   categories: {
     mask: "/categories",
-    create: () => `/categories`,
+    create: () => "/categories",
   },
   products: {
     mask: "/products",
-    create: () => `/products`,
+    create: () => "/products",
   },
   favorite: {
     mask: "/favorite",
-    create: () => `/favorite`,
+    create: () => "/favorite",
   },
   login: {
     mask: "/authorization",
-    create: () => `/authorization`,
+    create: () => "/authorization",
   },
   registration: {
     mask: "/authorization",
-    create: () => `/authorization`,
+    create: () => "/authorization",
   },
 }
