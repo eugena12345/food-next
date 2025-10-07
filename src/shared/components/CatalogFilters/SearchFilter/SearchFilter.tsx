@@ -6,12 +6,13 @@ import styles from './SearchFilter.module.scss';
 import { useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import { useLocalStore } from '~/utils/useLocalStore';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import CatalogFiltersStore from "~/shared/stores/CatalogStore/CatalogFiltersStore/CatalogFiltersStore";
+import { useRootStore } from "~/shared/stores/RootStore/RootStoreProvider";
 
 
 const SearchFilter = () => {
-    const router = useRouter();
+    const {query} = useRootStore()
     const searchParams = useSearchParams();
     const initialQueryParams = {
         search: searchParams.get('search') || '',
@@ -25,9 +26,7 @@ const SearchFilter = () => {
 
     const handleButtonClick = useCallback(() => {
         setSearch();
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('search', catalogFiltersStore.search);
-        router.push(currentUrl.toString());
+        query.updateQueryParam('search', catalogFiltersStore.search);
     }, [setSearch, catalogFiltersStore]);
 
     return (

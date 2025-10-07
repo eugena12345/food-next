@@ -58,8 +58,19 @@ export default class QueryParamsStore {
     }
 
     private updateBrowserUrl() {
-        const queryString = qs.stringify(this._params, { addQueryPrefix: true });
-        window.history.replaceState(null, '', queryString);
+        const params = new URLSearchParams();
+        for (const [key, value] of Object.entries(this._params)) {
+            if (Array.isArray(value)) {
+                value.forEach((item) => {
+                    if (typeof item === 'string') {
+                        params.append(key, item);
+                    }
+                });
+            } else if (typeof value === 'string' || typeof value === 'number') {
+                params.set(key, String(value));
+            }
+        }
+        window.history.replaceState(null, '', `?${params.toString()}`);
     }
 
     getQueryParams() {

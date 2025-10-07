@@ -17,7 +17,7 @@ export default async function RecipesPage({ searchParams }: {
   const params = Object.fromEntries(
     Object.entries(await searchParams).map(([key, value]) => {
       if (key === 'categories') {
-        return [key, Array.isArray(value) ? value : [value].filter(Boolean)];
+        return [key, Array.isArray(value) ? value.join(',') : [value].filter(Boolean).join(',')];
       }
       return [key, Array.isArray(value) ? value.join(',') : value || ''];
     })

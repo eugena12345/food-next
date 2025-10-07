@@ -59,9 +59,7 @@ export default class MealCategoryStore {
     }
 
     setSelectedCategories(value: Option[]): void {
-        const existingKeys = this._choosedCategory.map((item) => item.key);
-        const uniqueNewCategories = value.filter((item) => !existingKeys.includes(item.key));
-        this._choosedCategory = [...this._choosedCategory, ...uniqueNewCategories];
+        this._choosedCategory = value;
         const createRecepiesMealCategoryColl = (value: Option[]): string[] => {
             return value.map((item) => item.key.toString());
         };
@@ -99,8 +97,8 @@ export default class MealCategoryStore {
             params: createCategoryParamsForApi(),
 
             endpoint: '/meal-categories',
-            headers: {}, // Добавьте headers
-            data: {} as Record<string, unknown>, // Добавьте data
+            headers: {}, 
+            data: {} as Record<string, unknown>, 
         });
         runInAction(() => {
             if (response.success) {

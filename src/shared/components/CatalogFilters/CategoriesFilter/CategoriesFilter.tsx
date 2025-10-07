@@ -5,12 +5,12 @@ import styles from './CategoriesFilter.module.scss';
 import { observer } from "mobx-react-lite";
 import { useCallback, useEffect } from "react";
 import { useLocalStore } from "~/utils/useLocalStore";
-import { useRouter, useSearchParams } from "next/navigation";
-import CatalogFiltersStore from "~/shared/stores/CatalogStore/CatalogFiltersStore/CatalogFiltersStore";
+import { useSearchParams } from "next/navigation";
 import MealCategoryStore from "~/shared/stores/MealCategoryStore/MealCategoryStore";
+import { useRootStore } from "~/shared/stores/RootStore/RootStoreProvider";
 
 const CategoriesFilter = () => {
-    const router = useRouter();
+    const { query } = useRootStore();
     const searchParams = useSearchParams();
 
     const initialQueryParams = {
@@ -18,8 +18,6 @@ const CategoriesFilter = () => {
         categories: searchParams.getAll('categories') || [],
     };
 
-    const catalogFiltersStore = useLocalStore(() => new CatalogFiltersStore(initialQueryParams || {}))
-    const { categories, setCategories } = catalogFiltersStore;
     const mealCategoryStore = useLocalStore(() => new MealCategoryStore());
 
     useEffect(() => {
@@ -45,16 +43,9 @@ const CategoriesFilter = () => {
 
     const onChange = useCallback((value: Option[]) => {
         mealCategoryStore.setSelectedCategories(value);
-
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.delete('categories');
-
-        value.forEach((item) => {
-            currentUrl.searchParams.append('categories', item.key);
-        });
-
-        router.push(currentUrl.toString());
-    }, [mealCategoryStore]);
+        const categories = value.map((item) => item.key);
+        query.updateQueryParam('categories', categories);
+    }, [mealCategoryStore, query]);
     return (
         <MultiDropdown
             options={optionsForMulti}

@@ -17,7 +17,7 @@ export type PrivateFields = '_recepies' | '_meta' | '_metaInfo';
 
 export type ParamsFromQuery = {
     page?: number | string,
-    categories: string[],
+    categories?: string,//[],//string,
     search?: string,
     sort?: string,
 }

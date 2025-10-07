@@ -10,15 +10,16 @@ export const createParamsForApi = (params: ParamsFromQuery): ParamsForApi => {
         }
     };
     if (params.page) paramsForApi.pagination.page = params.page;
-    if (params.categories && params.categories.length > 0) { ///!!!
+    if (params.categories && params.categories.length > 0) { 
         if (paramsForApi.filters) {
             paramsForApi.filters.category = {
-                id: { $in: params.categories }
+                id: { $in: params.categories.split(',') }
+
             }
         } else {
             paramsForApi.filters = {
                 category: {
-                    id: { $in: params.categories }
+                    id: { $in: params.categories.split(',') } 
                 }
             }
         }

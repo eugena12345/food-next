@@ -53,7 +53,6 @@ export default class CatalogStore {
         queryParams: ParamsFromQuery
     ): Promise<Recipe[]> {
         const paramsForApi = createParamsForApi(queryParams);
-
         try {
             const response = await apiStore.request({
                 method: HTTPMethod.GET,
@@ -72,19 +71,22 @@ export default class CatalogStore {
         }
     }
 
-    async getRecipiesList(queryParams: Record<string, string>) {
+    async getRecipiesList(
+        queryParams: ParamsFromQuery
+    ) {
         this._meta = Meta.loading;
+                const paramsForApi = createParamsForApi(queryParams);
+
         try {
             const response = await this.apiStore.request({
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
-                params: queryParams,
+                params: paramsForApi,
                 headers: {},
                 data: undefined,
 
             });
 
-            console.log('client getRecipiesList', response.data);
 
             runInAction(() => {
                 this._recepies = response.data as Recipe[] || [];
@@ -136,7 +138,7 @@ export default class CatalogStore {
         this._qpReactionMealCategory = reaction(
             () => this.queryStore.getParam('categories'),
             (newCategory) => {
-                if (typeof newCategory === 'string') {
+                if(Array.isArray(newCategory)){
                     const queryParams = this.queryStore.getQueryParams();
                     this.getRecipiesList(this._convertToRecord(queryParams));
                 }
@@ -144,8 +146,7 @@ export default class CatalogStore {
         );
     }
 
-    // Вспомогательный метод для преобразования ParsedQs в Record<string, string>
-    private _convertToRecord(parsedQs: qs.ParsedQs): Record<string, string> {
+    private _convertToRecord(parsedQs: qs.ParsedQs): ParamsFromQuery {
         const result: Record<string, string> = {};
 
         for (const key in parsedQs) {

@@ -13,25 +13,20 @@ import { getIngradientsString } from '~/utils/helpers';
 import Button from '../Button';
 import Text from '~/components/Text';
 import { useCallback } from 'react';
-//import FavoriteStore from '~/shared/stores/FavoriteStore';
 
 interface ProductsListProps {
   initData: Recipe[];
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
-  // const rootStore = useRootStore();
   const { authStore, query, apiStore, favoriteStore } = useRootStore();
 
   const store = useLocalStore(() =>
     new CatalogStore(
-      // rootStore.query,
-      // rootStore.apiStore,
       query,
       apiStore,
       initData,
     ));
-  //const favoriteStore = useLocalStore(() => new FavoriteStore());
 
   const addFavRecipe = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, recipeId: number) => {
@@ -61,11 +56,11 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
               contentSlot={`${Math.round(rec.calories)} kcal`}
               actionSlot={
                 authStore.isAuthenticated ?
-                <Button onClick={(e) => addFavRecipe(e, rec.id)}
-                >
-                  Save
-                </Button>
-                : null
+                  <Button onClick={(e) => addFavRecipe(e, rec.id)}
+                  >
+                    Save
+                  </Button>
+                  : null
               }
             />
           </Link>
