@@ -37,8 +37,13 @@ export default class FavoriteStore {
         return this._meta;
     }
 
+    setFavRecipiesFromInitial(coll: FavRecipe[]): void {
+        this._favoriteRecepies = normalizeCollection(coll, (el) => el.id)
+    }
+
     async getFavoriteRecipiesList(
     ): Promise<void> {
+        console.log('getFavoriteRecipiesList')
         this._meta = Meta.loading;
         this._favoriteRecepies = getInitialCollectionModel();
 
@@ -50,15 +55,12 @@ export default class FavoriteStore {
                 //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
-
-
                 },
                 data: {},
             });
 
             runInAction(() => {
                 if (response.status === 200) {
-
                     this._favoriteRecepies = normalizeCollection(response.data as FavRecipe[], (el) => el.id);
                     this._meta = Meta.success;
                     return;
@@ -83,8 +85,6 @@ export default class FavoriteStore {
                 //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
-
-
                 },
                 data: { recipe: id },
             });
@@ -125,10 +125,8 @@ export default class FavoriteStore {
 
     static async getInitFavoriteRecipiesList(
         apiStore: ApiStore,
-
+        token: string,
     ): Promise<FavRecipe[]> {
-        const token = Cookies.get("JWT");
-
         try {
             const response = await apiStore.request({
                 method: HTTPMethod.GET,
