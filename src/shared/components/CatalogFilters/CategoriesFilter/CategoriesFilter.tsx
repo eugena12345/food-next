@@ -10,7 +10,7 @@ import MealCategoryStore from "~/shared/stores/MealCategoryStore/MealCategorySto
 import { useRootStore } from "~/shared/stores/RootStore/RootStoreProvider";
 
 const CategoriesFilter = () => {
-    const { query } = useRootStore();
+    const { query, apiStore } = useRootStore();
     const searchParams = useSearchParams();
 
     const initialQueryParams = {
@@ -18,7 +18,9 @@ const CategoriesFilter = () => {
         categories: searchParams.getAll('categories') || [],
     };
 
-    const mealCategoryStore = useLocalStore(() => new MealCategoryStore());
+    const mealCategoryStore = useLocalStore(() => new MealCategoryStore(
+        apiStore
+    ));
 
     useEffect(() => {
         const getCategory = async () => {

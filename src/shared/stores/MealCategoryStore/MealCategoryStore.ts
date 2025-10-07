@@ -14,7 +14,6 @@ import CatalogFiltersStore from "~/stores/CatalogStore/CatalogFiltersStore/Catal
 import { MealCategory } from "~/shared/types/recepies";
 
 export default class MealCategoryStore {
-    private readonly _apiStore = new ApiStore(STRAPI_URL);
     private readonly _catalogFiltersStore = new CatalogFiltersStore();
 
     private _mealCategory: CollectionModel<number, MealCategory> = getInitialCollectionModel();
@@ -22,7 +21,17 @@ export default class MealCategoryStore {
     private _valueForMulti = '';
     chosedId = this._catalogFiltersStore.categories;
 
-    constructor() {
+    constructor(
+        private apiStore: ApiStore,
+        initData?: MealCategory[],
+
+    ) {
+
+        if (initData) {
+            this._mealCategory = normalizeCollection(initData, (el) => el.id);
+
+        }
+
         makeObservable<MealCategoryStore, PrivateFields>(this, {
             _mealCategory: observable.ref, //Важно! реф позволяет сравнивать по ссылке
             _choosedCategory: observable.ref,
@@ -92,13 +101,13 @@ export default class MealCategoryStore {
     async getMealCategoryList(
     ): Promise<void> {
         this._mealCategory = getInitialCollectionModel();
-        const response = await this._apiStore.request<MealCategory[]>({
+        const response = await this.apiStore.request<MealCategory[]>({
             method: HTTPMethod.GET,
             params: createCategoryParamsForApi(),
 
             endpoint: '/meal-categories',
-            headers: {}, 
-            data: {} as Record<string, unknown>, 
+            headers: {},
+            data: {} as Record<string, unknown>,
         });
         runInAction(() => {
             if (response.success) {
@@ -108,6 +117,20 @@ export default class MealCategoryStore {
                 return;
             }
         })
+    }
+
+    static async getInitMealCategoryList(
+        apiStore: ApiStore,
+
+    ): Promise<MealCategory[]> {
+        const response = await apiStore.request<MealCategory[]>({
+            method: HTTPMethod.GET,
+            params: createCategoryParamsForApi(),
+            endpoint: '/meal-categories',
+            headers: {},
+            data: {} as Record<string, unknown>,
+        });
+        return response.data as MealCategory[];
     }
 
     reset(): void {
