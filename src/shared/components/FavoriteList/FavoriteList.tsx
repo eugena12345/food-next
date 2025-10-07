@@ -9,7 +9,7 @@ import Loader from "~/components/Loader";
 //TODO? если есть import { getIngradientsString } from '~utils/helpers';
 import { observer } from "mobx-react-lite";
 import { Meta } from "~/stores/CatalogStore/";
-import FavoriteStore from "~/stores/FavoriteStore";
+//import FavoriteStore from "~/stores/FavoriteStore";
 //import { authStore } from "~/stores/AuthStore";
 import { routes } from "~/config/routes.config";
 import Text from "~/components/Text";
@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { useRootStore } from "~/shared/stores/RootStore/RootStoreProvider";
 
-const favoriteStore = new FavoriteStore();
+//const favoriteStore = new FavoriteStore();
 
 const FavoritePage = () => {
     const router = useRouter();
@@ -33,7 +33,9 @@ const FavoritePage = () => {
     }
 
     useEffect(() => {
-        favoriteStore.getFavoriteRecipiesList();
+        //favoriteStore.getFavoriteRecipiesList();
+                rootStore.favoriteStore.getFavoriteRecipiesList();
+
     }, []);
 
     return (
@@ -43,12 +45,15 @@ const FavoritePage = () => {
                 <Text tag="h1" color="accent">Favorite recipes</Text>
                 </div>
                 <div className={styles[`container--maxWidth`]}>
-                    {favoriteStore.meta === Meta.error && <div className={styles.error}>Возникла непредвиденная ошибка. Не удалось загрузить данные. Попробуйте позже.</div>}
+                    {/* {favoriteStore.meta === Meta.error && <div className={styles.error}>Возникла непредвиденная ошибка. Не удалось загрузить данные. Попробуйте позже.</div>} */}
+                    {rootStore.favoriteStore.meta === Meta.error && <div className={styles.error}>Возникла непредвиденная ошибка. Не удалось загрузить данные. Попробуйте позже.</div>}
 
-                    {favoriteStore.meta === Meta.loading && <Loader />}
+                    {/* {favoriteStore.meta === Meta.loading && <Loader />} */}
+                    {rootStore.favoriteStore.meta === Meta.loading && <Loader />}
 
                     <div className={styles.container__products}>
-                        {favoriteStore.favoriteRecepies.length > 0 && favoriteStore.favoriteRecepies.map(rec => {
+                        {/* {favoriteStore.favoriteRecepies.length > 0 && favoriteStore.favoriteRecepies.map(rec => { */}
+                        {rootStore.favoriteStore.favoriteRecepies.length > 0 && rootStore.favoriteStore.favoriteRecepies.map(rec => {
                             return (
                                 <Link href={routes.recipe.create(rec.recipe.documentId)} key={rec.id} className={styles.link}>
 
@@ -62,7 +67,9 @@ const FavoritePage = () => {
                                         contentSlot={`${Math.round(rec.recipe.calories)} kcal`}
                                         actionSlot={
                                             <Button
-                                                onClick={(e) => favoriteStore.deleteFavoriteRecipe(e, rec.recipe.id)}
+                                                // onClick={(e) => favoriteStore.deleteFavoriteRecipe(e, rec.recipe.id)}
+                                                onClick={(e) => rootStore.favoriteStore.deleteFavoriteRecipe(e, rec.recipe.id)}
+
                                             >Delete</Button>
                                         }
                                     />

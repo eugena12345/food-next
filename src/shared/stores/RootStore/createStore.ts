@@ -3,6 +3,7 @@ import { RootStore, RootStoreInitData } from './RootStore';
 import QueryParamsStore from '~/stores/RootStore/QueryParamsStore/QueryParamsStore';
 import ApiStore from '../ApiStore';
 import AuthStore from '../AuthStore/AuthStore';
+import FavoriteStore from '../FavoriteStore';
 
 //TODO заменить на переменные
 const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
@@ -18,8 +19,9 @@ export const useCreateRootStore = (rootStoreInitData: RootStoreInitData): RootSt
     const queryStore = new QueryParamsStore();
     const apiStore = new ApiStore(baseUrl);
     const authStore = new AuthStore(rootStoreInitData.token);
+    const favoriteStore = new FavoriteStore();
 
-    return new RootStore(queryStore, apiStore, authStore, rootStoreInitData);
+    return new RootStore(queryStore, apiStore, authStore, favoriteStore, rootStoreInitData);
   };
 
   let result: RootStore;
