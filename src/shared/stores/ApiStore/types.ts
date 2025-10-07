@@ -43,11 +43,13 @@ export type ApiResponse<SuccessT, ErrorT> =
         success: false;
         data: ErrorT;
         status: StatusHTTP;
+        meta?: null;
     }
     | {
         success: false;
         data: null;
         status: StatusHTTP;
+        meta?: null;
     }
     | {
         success: true,

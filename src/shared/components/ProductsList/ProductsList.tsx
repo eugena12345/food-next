@@ -13,9 +13,11 @@ import { getIngradientsString } from '~/utils/helpers';
 import Button from '../Button';
 import Text from '~/components/Text';
 import { useCallback } from 'react';
+import { ResponseWithMeta } from '~/shared/stores/CatalogStore/CatalogStore';
+import Pagination from '../Pagination';
 
 interface ProductsListProps {
-  initData: Recipe[];
+  initData: ResponseWithMeta;
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
@@ -36,38 +38,41 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
     }, [favoriteStore])
 
   return (
-    <div className={styles.container__products}>
-      {store.recepies.length === 0
-        && <div className={styles.noMatching}>
-          <Text tag="h3">Nothing found matching your criteria. Try changing your filters.</Text>
-        </div>
-      }
-      {store.recepies.length > 0 && store.recepies.map(rec => {
+    <div className={styles.container}>
+      <div className={styles.container__products}>
+        {store.recepies.length === 0
+          && <div className={styles.noMatching}>
+            <Text tag="h3">Nothing found matching your criteria. Try changing your filters.</Text>
+          </div>
+        }
+        {store.recepies.length > 0 && store.recepies.map(rec => {
 
-        return (
-          <Link href={routes.recipe.create(rec.documentId)} key={rec.id} className={styles.link}>
-            <InfoCard
-              key={rec.id}
-              image={rec.images[0].url}
-              captionSlot={`${rec.cookingTime} minutes`}
-              title={rec.name}
-              subtitle={getIngradientsString(rec.ingradients || [])}
-              itemDocumentId={rec.documentId}
-              contentSlot={`${Math.round(rec.calories)} kcal`}
-              actionSlot={
-                authStore.isAuthenticated ?
-                  <Button onClick={(e) => addFavRecipe(e, rec.id)}
-                  >
-                    Save
-                  </Button>
-                  : null
-              }
-            />
-          </Link>
+          return (
+            <Link href={routes.recipe.create(rec.documentId)} key={rec.id} className={styles.link}>
+              <InfoCard
+                key={rec.id}
+                image={rec.images[0].url}
+                captionSlot={`${rec.cookingTime} minutes`}
+                title={rec.name}
+                subtitle={getIngradientsString(rec.ingradients || [])}
+                itemDocumentId={rec.documentId}
+                contentSlot={`${Math.round(rec.calories)} kcal`}
+                actionSlot={
+                  authStore.isAuthenticated ?
+                    <Button onClick={(e) => addFavRecipe(e, rec.id)}
+                    >
+                      Save
+                    </Button>
+                    : null
+                }
+              />
+            </Link>
 
-        )
-      }
-      )}
+          )
+        }
+        )}
+      </div>
+      <Pagination pageCount={store.metaInfo.pagination.pageCount} actualPage={store.metaInfo.pagination.page} />
     </div>
   )
 };

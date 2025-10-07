@@ -1,11 +1,15 @@
 import { makeObservable, observable, computed, action, reaction, runInAction, IReactionDisposer } from 'mobx';
-import { getInitialCollectionModel } from '~/stores/models/shared/collection';
 import { Meta, metaInfoInitial } from '~/stores/CatalogStore';
 import ApiStore, { HTTPMethod } from '~/shared/stores/ApiStore';
 import QueryStore from '~/shared/stores/RootStore/QueryParamsStore/QueryParamsStore';
-import type { ParamsFromQuery, PrivateFields } from "~/stores/CatalogStore";
+import type { MetaInfoInitial, ParamsFromQuery, PrivateFields } from "~/stores/CatalogStore";
 import { createParamsForApi } from '~/utils/api';
 import { Recipe } from '~/shared/types/recepies';
+
+export type ResponseWithMeta = {
+    data: Recipe[],
+    meta: MetaInfoInitial
+}
 
 export default class CatalogStore {
     private _recepies: Recipe[] = [];
@@ -15,11 +19,12 @@ export default class CatalogStore {
     constructor(
         private queryStore: QueryStore,
         private apiStore: ApiStore,
-        initData?: Recipe[]
+        initData?: ResponseWithMeta
     ) {
 
         if (initData) {
-            this._recepies = initData;
+            this._recepies = initData.data;
+            this._metaInfo = initData.meta;
             this._meta = Meta.success;
         }
 
@@ -51,7 +56,7 @@ export default class CatalogStore {
     static async getInitialData(
         apiStore: ApiStore,
         queryParams: ParamsFromQuery
-    ): Promise<Recipe[]> {
+    ): Promise<ResponseWithMeta> {//Recipe[]
         const paramsForApi = createParamsForApi(queryParams);
         try {
             const response = await apiStore.request({
@@ -59,15 +64,19 @@ export default class CatalogStore {
                 endpoint: '/recipes',
                 params: paramsForApi,
                 headers: {
-                  //  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                    //  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
                 },
-                
+
                 data: undefined,
             });
-            return response.data as Recipe[] || [];
+
+            return {
+                data: response.data as Recipe[] || [],
+                meta: response.meta as MetaInfoInitial
+            }
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
-            return [];
+            return { data: [], meta: metaInfoInitial };
         }
     }
 
@@ -75,7 +84,7 @@ export default class CatalogStore {
         queryParams: ParamsFromQuery
     ) {
         this._meta = Meta.loading;
-                const paramsForApi = createParamsForApi(queryParams);
+        const paramsForApi = createParamsForApi(queryParams);
 
         try {
             const response = await this.apiStore.request({
@@ -89,9 +98,13 @@ export default class CatalogStore {
 
 
             runInAction(() => {
-                this._recepies = response.data as Recipe[] || [];
-                this._meta = Meta.success;
-                //this._metaInfo = response.meta || metaInfoInitial;
+                if (response.status === 200) {
+                    this._recepies = response.data as Recipe[] || [];
+                    this._meta = Meta.success;
+                    this._metaInfo = response.meta! as MetaInfoInitial || metaInfoInitial;
+
+
+                }
             });
         } catch (error) {
             runInAction(() => {
@@ -102,7 +115,7 @@ export default class CatalogStore {
     }
 
     reset(): void {
-        this._recepies = [];//getInitialCollectionModel();
+        this._recepies = [];
         this._meta = Meta.initial;
         this._metaInfo = metaInfoInitial;
     }
@@ -138,7 +151,7 @@ export default class CatalogStore {
         this._qpReactionMealCategory = reaction(
             () => this.queryStore.getParam('categories'),
             (newCategory) => {
-                if(Array.isArray(newCategory)){
+                if (Array.isArray(newCategory)) {
                     const queryParams = this.queryStore.getQueryParams();
                     this.getRecipiesList(this._convertToRecord(queryParams));
                 }
