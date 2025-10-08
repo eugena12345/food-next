@@ -29,16 +29,11 @@ export default async function RecipePage({ params }: Props) {
         <div className={styles.container}>
             <div className={styles.decorativeImage} style={{ backgroundImage: `url(${decorativeImage})` }}></div>
             <div className={styles[`container--maxWidth`]}>
-                {/* {error && <div className={styles.error}>{error}</div>} */}
-
-                {/* {isLoading && <div className={styles.center}><Loader /></div>} */}
                 {recipe.name
                     && <div className={styles.recipe}>
                         <div className={styles.title}>
                             <Text view='title'>{recipe.name}</Text>
                         </div>
-
-
                         <div className={styles.preInfo}>
                             <img src={recipe.images[0].url} alt='картинка' className={styles['card__image']} />
                             <div className={styles.info}>
