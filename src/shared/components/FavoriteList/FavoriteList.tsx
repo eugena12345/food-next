@@ -21,11 +21,10 @@ const FavoritePage: React.FC<FavoritePageProps> = ({ initData }) => {
     const router = useRouter();
     const rootStore = useRootStore();
     const isAuthenticated = rootStore.authStore.isAuthenticated;
-    if (!isAuthenticated) {
-        router.push(routes.login.create());
-    }
-
     useEffect(() => {
+        if (!isAuthenticated) {
+            router.push(routes.login.create());
+        }
         rootStore.favoriteStore.setFavRecipiesFromInitial(initData);
     }, []);
 
