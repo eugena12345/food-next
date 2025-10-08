@@ -38,5 +38,9 @@ export const routes = {
   dinnerparty: {
     mask: '/dinnerparty',
     create: () => '/dinnerparty'
+  },
+  about: {
+    mask: '/about',
+    create: () => '/about'
   }
 }

@@ -1,0 +1,17 @@
+@use './../../shared/styles/variables.module.scss' as vars;
+
+.container {
+    background-color: #FFC0763B;
+    min-height: calc(100vh - 90px);
+    padding-bottom: 90px;
+}
+
+.withMaxWidth {
+    padding: 20px;
+    text-align: center;
+    margin: auto;
+    max-width: vars.$maxWidth;
+}
+.padding{
+    padding-bottom: vars.$spaceL;
+}
