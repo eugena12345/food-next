@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { useRootStore } from '~/shared/stores/RootStore/RootStoreProvider';
 import { useLocalStore } from '~/utils/useLocalStore';
 import CatalogStore from '~/shared/stores/CatalogStore';
-import { Recipe } from '~/shared/types/recepies';
 import styles from './ProductsList.module.scss';
 import Link from 'next/link';
 import { routes } from '~/shared/config/routes.config';

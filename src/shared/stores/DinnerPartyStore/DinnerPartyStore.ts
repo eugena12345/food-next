@@ -32,12 +32,7 @@ export default class DinnerPartyStore {
 
         if (!exists) {
             this._recepiesDinner.push(recipe);
-            console.log('Recipe added:', recipe.name); // Для отладки
-        } else {
-            console.log('Recipe already exists:', recipe.name); // Для отладки
         }
-
-        //this._recepiesDinner.push(recipe);
     }
 
     removeRecepeForDinner(recipeId: number) {

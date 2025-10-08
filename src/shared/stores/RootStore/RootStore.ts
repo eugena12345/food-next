@@ -40,18 +40,3 @@ export class RootStore {
 }
 
 export type RootStoreInitData = Partial<Omit<RootStore, 'query' | 'apiStore'| 'authStore'>>;
-
-
-
-
-
-
-
-
-// export function createRootStore(apiBaseUrl: string, initialData?: RootStoreInitData) {
-//   const queryStore = new QueryStore();
-//   const apiStore = new ApiStore(apiBaseUrl);
-//   const authStore =  new AuthStore();
-
-//   return new RootStore(queryStore, apiStore, authStore, initialData);
-// }

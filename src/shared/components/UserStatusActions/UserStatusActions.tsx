@@ -2,7 +2,7 @@
 
 import styles from './UserStatusActions.module.scss';
 import Image from 'next/image';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import heartSvg from './../../../../public/images/HeartIcon.svg';
 import logoutImg from './../../../../public/images/logout.png';
@@ -65,4 +65,3 @@ const UserStatusActions = () => {
 };
 
 export default observer(UserStatusActions);
-//было memo и observer но что-то пошло не так

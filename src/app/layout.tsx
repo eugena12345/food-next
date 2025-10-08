@@ -32,7 +32,6 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <RootStoreProvider rootStoreInitData={{ token: token?.value }}>
-          {/* // */}
           <Header />
           {children}
           <Footer />

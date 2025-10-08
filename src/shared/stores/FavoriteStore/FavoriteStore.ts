@@ -43,7 +43,6 @@ export default class FavoriteStore {
 
     async getFavoriteRecipiesList(
     ): Promise<void> {
-        console.log('getFavoriteRecipiesList')
         this._meta = Meta.loading;
         this._favoriteRecepies = getInitialCollectionModel();
 
@@ -52,7 +51,6 @@ export default class FavoriteStore {
             const response = await this._apiStore.request({
                 method: HTTPMethod.GET,
                 endpoint: '/favorites',
-                //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -82,7 +80,6 @@ export default class FavoriteStore {
             const response = await this._apiStore.request({
                 method: HTTPMethod.POST,
                 endpoint: '/favorites/add',
-                //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -107,7 +104,6 @@ export default class FavoriteStore {
             const response = await this._apiStore.request({
                 method: HTTPMethod.POST,
                 endpoint: '/favorites/remove',
-                //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -131,7 +127,6 @@ export default class FavoriteStore {
             const response = await apiStore.request({
                 method: HTTPMethod.GET,
                 endpoint: '/favorites',
-                //params: paramsForApi,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

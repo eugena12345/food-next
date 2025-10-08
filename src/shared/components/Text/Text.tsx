@@ -10,7 +10,6 @@ const Text: React.FC<TextProps> = ({
         view && styles[view],
         weight && styles[weight],
         color && styles[color]
-        // styles[view], styles[weight], styles[color]
     );
 
     const style: React.CSSProperties = {

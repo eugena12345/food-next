@@ -5,10 +5,7 @@ import ApiStore from '../ApiStore';
 import AuthStore from '../AuthStore/AuthStore';
 import FavoriteStore from '../FavoriteStore';
 import DinnerPartyStore from '../DinnerPartyStore/DinnerPartyStore';
-
-//TODO заменить на переменные
-const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
-
+import { STRAPI_URL } from '../CatalogStore';
 
 const isServer = typeof window === 'undefined';
 enableStaticRendering(isServer);
@@ -18,7 +15,7 @@ let clientStore: RootStore;
 export const useCreateRootStore = (rootStoreInitData: RootStoreInitData): RootStore => {
   const initRootStore = (): RootStore => {
     const queryStore = new QueryParamsStore();
-    const apiStore = new ApiStore(baseUrl);
+    const apiStore = new ApiStore(STRAPI_URL);
     const authStore = new AuthStore(rootStoreInitData.token);
     const favoriteStore = new FavoriteStore();
     const dinnerPartyStore = new DinnerPartyStore();

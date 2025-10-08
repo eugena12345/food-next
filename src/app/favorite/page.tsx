@@ -4,8 +4,7 @@ import FavoriteList from "~/shared/components/FavoriteList/FavoriteList";
 import ApiStore from "~/shared/stores/ApiStore";
 import ProtectedRoute from "~/shared/components/ProtectedRoute/ProtectedRoute";
 import { cookies } from "next/headers";
-
-export const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
+import { STRAPI_URL } from "~/shared/stores/CatalogStore";
 
 export default async function FavoritePage() {
 
@@ -15,9 +14,7 @@ export default async function FavoritePage() {
         return;
       }
     
-    const productsInitDataResponse = await FavoriteStore.getInitFavoriteRecipiesList(new ApiStore(baseUrl), token?.value);
-    console.log('FAV SERVER productsInitDataResponse', productsInitDataResponse)
-
+    const productsInitDataResponse = await FavoriteStore.getInitFavoriteRecipiesList(new ApiStore(STRAPI_URL), token?.value);
     return (
         <div>
             <ProtectedRoute>

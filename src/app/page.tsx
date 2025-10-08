@@ -7,8 +7,7 @@ import SearchInfo from "~/shared/components/SearchInfo";
 import CatalogFilters from "~/shared/components/CatalogFilters";
 import CatalogStore from "~/shared/stores/CatalogStore";
 import ApiStore from "~/shared/stores/ApiStore";
- 
-export const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
+import { STRAPI_URL } from "~/shared/stores/CatalogStore";
 
 export default async function RecipesPage({ searchParams }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -23,7 +22,7 @@ export default async function RecipesPage({ searchParams }: {
     })
   );
 
-  const productsInitDataResponse = await CatalogStore.getInitialData(new ApiStore(baseUrl), params);
+  const productsInitDataResponse = await CatalogStore.getInitialData(new ApiStore(STRAPI_URL), params);
 
   return (
     <div>

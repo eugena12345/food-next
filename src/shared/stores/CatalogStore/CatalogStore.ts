@@ -56,7 +56,7 @@ export default class CatalogStore {
     static async getInitialData(
         apiStore: ApiStore,
         queryParams: ParamsFromQuery
-    ): Promise<ResponseWithMeta> {//Recipe[]
+    ): Promise<ResponseWithMeta> {
         const paramsForApi = createParamsForApi(queryParams);
         try {
             const response = await apiStore.request({
@@ -64,7 +64,6 @@ export default class CatalogStore {
                 endpoint: '/recipes',
                 params: paramsForApi,
                 headers: {
-                    //  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
                 },
 
                 data: undefined,
@@ -109,7 +108,6 @@ export default class CatalogStore {
         } catch (error) {
             runInAction(() => {
                 this._meta = Meta.error;
-                //this._metaInfo = { message: 'Failed to load recipes' };
             });
         }
     }
