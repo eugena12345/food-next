@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; // Заполнение всей высоты экрана
+    background-color: #f9f9f9; // Светлый фон
+    text-align: center;
+    color: #4B3D33; // Темный цвет текста
+}
+
+.title {
+    font-size: 48px; // Размер заголовка
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease; // Анимация появления заголовка
+}
+
+.message {
+    font-size: 24px; // Размер сообщения
+    margin-bottom: 30px;
+    animation: fadeIn 1s 0.5s ease; // Анимация с задержкой
+}
+
+.animation {
+    font-size: 48px; // Размер анимации
+    animation: bounce 1s infinite; // Бесконечная анимация
+}
+
+// Анимация появления текста
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Анимация "подпрыгивания"
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}

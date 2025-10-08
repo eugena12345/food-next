@@ -1,17 +1,21 @@
-'use client'; 
+'use client';
 
 import styles from './UserStatusActions.module.scss';
 import Image from 'next/image';
-import { memo, useCallback } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { memo, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import heartSvg from './../../../../public/images/HeartIcon.svg';
 import logoutImg from './../../../../public/images/logout.png';
-// import { authStore } from '~/shared/stores/authStore'; 
+import userSvg from './../../../../public/images/User.svg';
 import { routes } from '~/shared/config/routes.config';
+import { observer } from 'mobx-react-lite';
+import { useRootStore } from '~/shared/stores/RootStore/RootStoreProvider';
 
 const UserStatusActions = () => {
-  const router = useRouter(); 
-//   const { isAuthenticated, logout: logoutAction } = authStore;
+  const router = useRouter();
+  const rootstore = useRootStore()
+
+  const [username, setUsername] = useState('');
 
   const goToLogin = useCallback(() => {
     router.push(routes.login.create());
@@ -22,41 +26,43 @@ const UserStatusActions = () => {
   }, [router]);
 
   const handleLogout = useCallback(() => {
-    // logoutAction();
-    router.push(routes.main.create()); 
-  }, []); //logoutAction, router
+    rootstore.authStore.logout()
+    router.push(routes.main.create());
+  }, [rootstore, router]);
 
   return (
     <>
-      {/* {isAuthenticated && ( */}
-        <>
-          <Image
-            src={heartSvg}
-            alt="heartSvg"
-            className={styles.userInfo}
-            onClick={goToFavorite}
-          />
-          {/* <div>{localStorage.getItem('username')}</div> */}
-          <Image
-            src={logoutImg}
-            alt="logout"
-            className={styles.logout}
-            onClick={handleLogout}
-          />
-        </>
-      {/* )} */}
-      {/* {!isAuthenticated && ( 
+       {rootstore.authStore.isAuthenticated && <>
         <Image
-          src="/images/User.svg" // Используем публичные статические файлы
-          alt="userSvg"
-          width={24}
-          height={24}
+          src={heartSvg}
+          alt="heartSvg"
           className={styles.userInfo}
-          onClick={goToLogin}
+          onClick={goToFavorite}
         />
-       )} */}
+        <div suppressHydrationWarning>{username}</div>
+        <Image
+          src={logoutImg}
+          alt="logout"
+          className={styles.logout}
+          onClick={handleLogout}
+        />
+      </>}
+
+
+     
+      {!rootstore.authStore.isAuthenticated && 
+      <Image
+        src={userSvg}
+        alt="userSvg"
+        width={24}
+        height={24}
+        className={styles.userInfo}
+        onClick={goToLogin}
+      />
+       }
     </>
   );
 };
 
-export default memo(UserStatusActions);
+export default observer(UserStatusActions);
+//было memo и observer но что-то пошло не так

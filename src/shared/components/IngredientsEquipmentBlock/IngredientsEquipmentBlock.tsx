@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, { useState } from 'react';
 import styles from './IngredientsEquipmentBlock.module.scss';
 import dinner from './../../../../public/images/dinner.svg';
 import ladle from './../../../../public/images/ladle.png';
@@ -6,14 +8,13 @@ import Text from '~/components/Text';
 import type { Ingredient, Equipment } from '~/types/recepies';
 import Image from "next/image";
 
-
-
 type Props = {
   ingredients: Ingredient[];
   equipment?: Equipment[];
+  initialServings: number;
 };
 
-const IngredientsEquipmentBlock: React.FC<Props> = ({ ingredients, equipment }) => {
+const IngredientsEquipmentBlock: React.FC<Props> = ({ ingredients, equipment, initialServings = 1 }) => {
   const splitIntoColumns = <T extends Ingredient | Equipment>(array: T[]): [T[], T[]] => {
     const half = Math.ceil(array.length / 2);
     return [array.slice(0, half), array.slice(half)];
@@ -21,6 +22,22 @@ const IngredientsEquipmentBlock: React.FC<Props> = ({ ingredients, equipment }) 
 
   const [ingredientsLeft, ingredientsRight] = splitIntoColumns(ingredients);
   const [equipmentLeft, equipmentRight] = splitIntoColumns(equipment || []);
+
+  const [servings, setServings] = useState(initialServings);
+  const adjustServings = (newServings: number) => {
+    if (newServings > 0) {
+      setServings(newServings);
+    }
+  };
+
+  const ingredientsLeftWithServings = ingredientsLeft.map((ingredient) => ({
+    ...ingredient,
+    amount: (ingredient.amount / initialServings) * servings,
+  }));
+  const ingredientsRightWithServings = ingredientsRight.map((ingredient) => ({
+    ...ingredient,
+    amount: (ingredient.amount / initialServings) * servings,
+  }));
 
   return (
     <div className={styles.container}>
@@ -30,20 +47,25 @@ const IngredientsEquipmentBlock: React.FC<Props> = ({ ingredients, equipment }) 
         </div>
         <div className={styles.columns}>
           <ul className={styles.column}>
-            {ingredientsLeft.map((ingr, index) => (
+            {ingredientsLeftWithServings.map((ingr, index) => (
               <li key={index}>
                 <Image src={dinner} alt='logo' className={styles.dinnerLogo} />
                 <div className={styles.descr}>{`${ingr.amount} ${ingr.unit} ${ingr.name}`}</div></li>
             ))}
           </ul>
           <ul className={styles.column}>
-            {ingredientsRight.map((ingr, index) => (
+            {ingredientsRightWithServings.map((ingr, index) => (
 
               <li key={index}>
                 <Image src={dinner} alt='logo' className={styles.dinnerLogo} />
                 <div className={styles.descr}>{`${ingr.amount} ${ingr.unit} ${ingr.name}`}</div></li>
             ))}
           </ul>
+        </div>
+        <div className={styles.servingsControl}>
+          <button className={styles.buttonServing} onClick={() => adjustServings(servings - 1)}>-</button>
+          <span>{servings} servings</span>
+          <button className={styles.buttonServing} onClick={() => adjustServings(servings + 1)}>+</button>
         </div>
       </div>
 

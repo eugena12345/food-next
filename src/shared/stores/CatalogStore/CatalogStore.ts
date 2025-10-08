@@ -1,13 +1,15 @@
 import { makeObservable, observable, computed, action, reaction, runInAction, IReactionDisposer } from 'mobx';
-import { getInitialCollectionModel } from '~/stores/models/shared/collection';
 import { Meta, metaInfoInitial } from '~/stores/CatalogStore';
 import ApiStore, { HTTPMethod } from '~/shared/stores/ApiStore';
 import QueryStore from '~/shared/stores/RootStore/QueryParamsStore/QueryParamsStore';
-import type { ParamsFromQuery, PrivateFields } from "~/stores/CatalogStore";
+import type { MetaInfoInitial, ParamsFromQuery, PrivateFields } from "~/stores/CatalogStore";
 import { createParamsForApi } from '~/utils/api';
 import { Recipe } from '~/shared/types/recepies';
 
-
+export type ResponseWithMeta = {
+    data: Recipe[],
+    meta: MetaInfoInitial
+}
 
 export default class CatalogStore {
     private _recepies: Recipe[] = [];
@@ -17,11 +19,12 @@ export default class CatalogStore {
     constructor(
         private queryStore: QueryStore,
         private apiStore: ApiStore,
-        initData?: Recipe[]
+        initData?: ResponseWithMeta
     ) {
 
         if (initData) {
-            this._recepies = initData;
+            this._recepies = initData.data;
+            this._metaInfo = initData.meta;
             this._meta = Meta.success;
         }
 
@@ -50,64 +53,58 @@ export default class CatalogStore {
         return this._metaInfo;
     }
 
-    // static async getInitialData(apiStore: ApiStore, queryParams: ParamsFromQuery): Promise<Recipe[]> {
-    //     //console.log('getInitialData queryParams', queryParams)
-    //     const paramsForApi = createParamsForApi(queryParams);
-
-    //     try {
-    //         const response = await apiStore.request({
-    //             method: HTTPMethod.GET,
-    //             endpoint: '/recipes',
-    //             params: paramsForApi,
-    //             headers: {}, 
-    //             data: undefined,
-    //         });
-
-    //         return response.data || [];
-    //     } catch (error) {
-    //         console.error('Failed to fetch initial data:', error);
-    //         return [];
-    //     }
-    // }
-
     static async getInitialData(
         apiStore: ApiStore,
-        queryParams: ParamsFromQuery // Используйте правильный тип
-    ): Promise<Recipe[]> {
+        queryParams: ParamsFromQuery
+    ): Promise<ResponseWithMeta> {//Recipe[]
         const paramsForApi = createParamsForApi(queryParams);
-
         try {
             const response = await apiStore.request({
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
                 params: paramsForApi,
-                headers: {}, // Добавьте headers
-                data: undefined, // Добавьте data
+                headers: {
+                    //  Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                },
+
+                data: undefined,
             });
 
-            return response.data as Recipe[] || [];
+            return {
+                data: response.data as Recipe[] || [],
+                meta: response.meta as MetaInfoInitial
+            }
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
-            return [];
+            return { data: [], meta: metaInfoInitial };
         }
     }
 
-    async getRecipiesList(queryParams: Record<string, string>) {
+    async getRecipiesList(
+        queryParams: ParamsFromQuery
+    ) {
         this._meta = Meta.loading;
+        const paramsForApi = createParamsForApi(queryParams);
+
         try {
             const response = await this.apiStore.request({
                 method: HTTPMethod.GET,
                 endpoint: '/recipes',
-                params: queryParams,
+                params: paramsForApi,
                 headers: {},
                 data: undefined,
 
             });
 
+
             runInAction(() => {
-                this._recepies = response.data as Recipe[] || [];
-                this._meta = Meta.success;
-                //this._metaInfo = response.meta || metaInfoInitial;
+                if (response.status === 200) {
+                    this._recepies = response.data as Recipe[] || [];
+                    this._meta = Meta.success;
+                    this._metaInfo = response.meta! as MetaInfoInitial || metaInfoInitial;
+
+
+                }
             });
         } catch (error) {
             runInAction(() => {
@@ -118,7 +115,7 @@ export default class CatalogStore {
     }
 
     reset(): void {
-        this._recepies = [];//getInitialCollectionModel();
+        this._recepies = [];
         this._meta = Meta.initial;
         this._metaInfo = metaInfoInitial;
     }
@@ -131,56 +128,55 @@ export default class CatalogStore {
     }
 
     private _setupQueryReactions() {
-    this._qpReactionPage = reaction(
-        () => this.queryStore.getParam('page'),
-        (newPage) => {
-            if (typeof newPage === 'string') {
-                const queryParams = this.queryStore.getQueryParams();
-                this.getRecipiesList(this._convertToRecord(queryParams));
+        this._qpReactionPage = reaction(
+            () => this.queryStore.getParam('page'),
+            (newPage) => {
+                if (typeof newPage === 'string') {
+                    const queryParams = this.queryStore.getQueryParams();
+                    this.getRecipiesList(this._convertToRecord(queryParams));
+                }
             }
-        }
-    );
+        );
 
-    this._qpReactionName = reaction(
-        () => this.queryStore.getParam('search'),
-        (newSearch) => {
-            if (typeof newSearch === 'string') {
-                const queryParams = this.queryStore.getQueryParams();
-                this.getRecipiesList(this._convertToRecord(queryParams));
+        this._qpReactionName = reaction(
+            () => this.queryStore.getParam('search'),
+            (newSearch) => {
+                if (typeof newSearch === 'string') {
+                    const queryParams = this.queryStore.getQueryParams();
+                    this.getRecipiesList(this._convertToRecord(queryParams));
+                }
             }
-        }
-    );
+        );
 
-    this._qpReactionMealCategory = reaction(
-        () => this.queryStore.getParam('categories'),
-        (newCategory) => {
-            if (typeof newCategory === 'string') {
-                const queryParams = this.queryStore.getQueryParams();
-                this.getRecipiesList(this._convertToRecord(queryParams));
+        this._qpReactionMealCategory = reaction(
+            () => this.queryStore.getParam('categories'),
+            (newCategory) => {
+                if (Array.isArray(newCategory)) {
+                    const queryParams = this.queryStore.getQueryParams();
+                    this.getRecipiesList(this._convertToRecord(queryParams));
+                }
             }
-        }
-    );
-}
-
-// Вспомогательный метод для преобразования ParsedQs в Record<string, string>
-private _convertToRecord(parsedQs: qs.ParsedQs): Record<string, string> {
-    const result: Record<string, string> = {};
-
-    for (const key in parsedQs) {
-        if (parsedQs.hasOwnProperty(key)) {
-            const value = parsedQs[key];
-            if (typeof value === 'string') {
-                result[key] = value;
-            } else if (Array.isArray(value)) {
-                result[key] = value.map(String).join(','); // Преобразуем массив в строку
-            } else if (value !== undefined && value !== null) {
-                result[key] = String(value); // Преобразуем любое другое значение в строку
-            }
-        }
+        );
     }
 
-    return result;
-}
+    private _convertToRecord(parsedQs: qs.ParsedQs): ParamsFromQuery {
+        const result: Record<string, string> = {};
+
+        for (const key in parsedQs) {
+            if (parsedQs.hasOwnProperty(key)) {
+                const value = parsedQs[key];
+                if (typeof value === 'string') {
+                    result[key] = value;
+                } else if (Array.isArray(value)) {
+                    result[key] = value.map(String).join(',');
+                } else if (value !== undefined && value !== null) {
+                    result[key] = String(value);
+                }
+            }
+        }
+
+        return result;
+    }
 
 
     private _qpReactionPage: IReactionDisposer = reaction(() => { }, () => { });

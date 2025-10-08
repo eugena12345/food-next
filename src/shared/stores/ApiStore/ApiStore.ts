@@ -53,12 +53,17 @@ export default class ApiStore implements IApiStore {
             }
 
             const responseData = await response.json();
-            const data = responseData.jwt ? responseData : responseData?.data;
+            const data =
+                responseData.jwt 
+                    ? responseData
+                    : Array.isArray(responseData) 
+                        ? responseData
+                        : responseData?.data || null; 
+
 
             return {
                 success: true,
                 data: data || null,
-                //responseData?.data || null,
                 meta: responseData?.meta || null,
                 status: response.status,
             };

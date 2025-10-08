@@ -2,6 +2,9 @@ import { enableStaticRendering } from 'mobx-react-lite';
 import { RootStore, RootStoreInitData } from './RootStore';
 import QueryParamsStore from '~/stores/RootStore/QueryParamsStore/QueryParamsStore';
 import ApiStore from '../ApiStore';
+import AuthStore from '../AuthStore/AuthStore';
+import FavoriteStore from '../FavoriteStore';
+import DinnerPartyStore from '../DinnerPartyStore/DinnerPartyStore';
 
 //TODO заменить на переменные
 const baseUrl = 'https://front-school-strapi.ktsdev.ru/api';
@@ -16,8 +19,11 @@ export const useCreateRootStore = (rootStoreInitData: RootStoreInitData): RootSt
   const initRootStore = (): RootStore => {
     const queryStore = new QueryParamsStore();
     const apiStore = new ApiStore(baseUrl);
+    const authStore = new AuthStore(rootStoreInitData.token);
+    const favoriteStore = new FavoriteStore();
+    const dinnerPartyStore = new DinnerPartyStore();
 
-    return new RootStore(queryStore, apiStore, rootStoreInitData);
+    return new RootStore(queryStore, apiStore, authStore, favoriteStore, dinnerPartyStore, rootStoreInitData);
   };
 
   let result: RootStore;

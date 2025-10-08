@@ -2,7 +2,6 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import type { PrivateFields } from "~/stores/MealCategoryStore/types";
 import { STRAPI_URL } from "~/stores/CatalogStore";
 import ApiStore, { HTTPMethod } from "~/stores/ApiStore";
-// import type { MealCategory } from "~/stores/models/recepies";
 import type { CollectionModel } from '~/stores/models/shared/collection';
 import {
     getInitialCollectionModel,
@@ -15,7 +14,6 @@ import CatalogFiltersStore from "~/stores/CatalogStore/CatalogFiltersStore/Catal
 import { MealCategory } from "~/shared/types/recepies";
 
 export default class MealCategoryStore {
-    private readonly _apiStore = new ApiStore(STRAPI_URL);
     private readonly _catalogFiltersStore = new CatalogFiltersStore();
 
     private _mealCategory: CollectionModel<number, MealCategory> = getInitialCollectionModel();
@@ -23,7 +21,17 @@ export default class MealCategoryStore {
     private _valueForMulti = '';
     chosedId = this._catalogFiltersStore.categories;
 
-    constructor() {
+    constructor(
+        private apiStore: ApiStore,
+        initData?: MealCategory[],
+
+    ) {
+
+        if (initData) {
+            this._mealCategory = normalizeCollection(initData, (el) => el.id);
+
+        }
+
         makeObservable<MealCategoryStore, PrivateFields>(this, {
             _mealCategory: observable.ref, //Важно! реф позволяет сравнивать по ссылке
             _choosedCategory: observable.ref,
@@ -60,9 +68,7 @@ export default class MealCategoryStore {
     }
 
     setSelectedCategories(value: Option[]): void {
-        const existingKeys = this._choosedCategory.map((item) => item.key);
-        const uniqueNewCategories = value.filter((item) => !existingKeys.includes(item.key));
-        this._choosedCategory = [...this._choosedCategory, ...uniqueNewCategories];
+        this._choosedCategory = value;
         const createRecepiesMealCategoryColl = (value: Option[]): string[] => {
             return value.map((item) => item.key.toString());
         };
@@ -95,13 +101,13 @@ export default class MealCategoryStore {
     async getMealCategoryList(
     ): Promise<void> {
         this._mealCategory = getInitialCollectionModel();
-        const response = await this._apiStore.request<MealCategory[]>({
+        const response = await this.apiStore.request<MealCategory[]>({
             method: HTTPMethod.GET,
             params: createCategoryParamsForApi(),
 
             endpoint: '/meal-categories',
-            headers: {}, // Добавьте headers
-            data: {} as Record<string, unknown>, // Добавьте data
+            headers: {},
+            data: {} as Record<string, unknown>,
         });
         runInAction(() => {
             if (response.success) {
@@ -111,6 +117,20 @@ export default class MealCategoryStore {
                 return;
             }
         })
+    }
+
+    static async getInitMealCategoryList(
+        apiStore: ApiStore,
+
+    ): Promise<MealCategory[]> {
+        const response = await apiStore.request<MealCategory[]>({
+            method: HTTPMethod.GET,
+            params: createCategoryParamsForApi(),
+            endpoint: '/meal-categories',
+            headers: {},
+            data: {} as Record<string, unknown>,
+        });
+        return response.data as MealCategory[];
     }
 
     reset(): void {

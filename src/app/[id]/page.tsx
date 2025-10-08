@@ -35,7 +35,6 @@ export default async function RecipePage({ params }: Props) {
                 {recipe.name
                     && <div className={styles.recipe}>
                         <div className={styles.title}>
-                            {/*TODO картиника вернуться назад */}
                             <Text view='title'>{recipe.name}</Text>
                         </div>
 
@@ -78,13 +77,13 @@ export default async function RecipePage({ params }: Props) {
                             <IngredientsEquipmentBlock
                                 ingredients={recipe.ingradients}
                                 equipment={recipe.equipments}
+                                initialServings={recipe.servings}
                             />
                         </div>
 
                         <div className={styles.description}>
                             <Text tag='h2'>Directions</Text>
                             {recipe.directions?.map((step: StepType, idx: number) => {
-                                //console.log(step)
                                 return (
                                     <div key={step.id} className={styles.steps}>
                                         <Text tag='h3'>Step {idx + 1}</Text>

@@ -4,35 +4,39 @@ export const routes = {
     create: () => "/",
   },
   mainWithCategory: {
-    mask: "/", //recipes/
-    create: (categoryId: number) => `?categories=${categoryId}`, ///recipes
+    mask: "/",
+    create: (categoryId: number) => `/?categories=${categoryId}`,
   },
   recipes: {
-    mask: "/", //recipes
-    create: () => "/", //recipes
+    mask: "/",
+    create: () => "/",
   },
   recipe: {
-    mask: "/:id", //recipes/
-    create: (id: string) => `/${id}`, //recipes/
+    mask: "/:id",
+    create: (id: string) => `/${id}`,
   },
   categories: {
     mask: "/categories",
-    create: () => `/categories`,
+    create: () => "/categories",
   },
   products: {
     mask: "/products",
-    create: () => `/products`,
+    create: () => "/products",
   },
   favorite: {
     mask: "/favorite",
-    create: () => `/favorite`,
+    create: () => "/favorite",
   },
   login: {
-    mask: "/login",
-    create: () => `/login`,
+    mask: "/authorization",
+    create: () => "/authorization",
   },
   registration: {
-    mask: "/registration",
-    create: () => `/registration`,
+    mask: "/authorization",
+    create: () => "/authorization",
   },
+  dinnerparty: {
+    mask: '/dinnerparty',
+    create: () => '/dinnerparty'
+  }
 }
