@@ -11,7 +11,7 @@ const AboutPage = () => {
         <Text tag="p" className={styles.padding}>Welcome to our recipe website, your ultimate destination for discovering and sharing delicious meals! Our platform is designed for food enthusiasts, home cooks, and anyone looking to explore the culinary arts. Here’s what you can do on our site:
         </Text>
         <Text tag="h2" color="accent">Browse an Extensive Collection of Recipes:</Text>
-        <Text tag="p" className={styles.padding}>Discover a wide variety of recipes across different cuisines, dietary preferences, and cooking methods. Whether you're looking for a quick weeknight dinner, a gourmet feast, or dessert inspiration, we've got you covered!
+        <Text tag="p" className={styles.padding}>Discover a wide variety of recipes across different cuisines, dietary preferences, and cooking methods. Whether you are looking for a quick weeknight dinner, a gourmet feast, or dessert inspiration, we have got you covered!
         </Text>
 
         <Text tag="h2" color="accent">Create and Manage Your Dinner Parties:</Text>
@@ -23,11 +23,11 @@ const AboutPage = () => {
         </Text>
 
         <Text tag="h2" color="accent">User Registration and Recipe Contributions: </Text>
-        <Text tag="p" className={styles.padding}>Join our community by registering for an account. Once you're a member, you can contribute your own recipes for others to try, share tips, and connect with fellow food lovers.
+        <Text tag="p" className={styles.padding}>Join our community by registering for an account. Once you are a member, you can contribute your own recipes for others to try, share tips, and connect with fellow food lovers.
         </Text>
 
         <Text tag="h2" color="accent">Search and Filter Options: </Text>
-        <Text tag="p" className={styles.padding}>Easily find exactly what you're looking for with our robust search and filter features. Whether you have specific ingredients in mind or are searching by category, you can quickly narrow down your options.
+        <Text tag="p" className={styles.padding}>Easily find exactly what you are looking for with our robust search and filter features. Whether you have specific ingredients in mind or are searching by category, you can quickly narrow down your options.
         </Text>
 
         <Text tag="h2" color="accent">Stay Updated with New Features: </Text>

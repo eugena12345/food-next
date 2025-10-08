@@ -40,7 +40,7 @@ const FavoritePage: React.FC<FavoritePageProps> = ({ initData }) => {
                     {rootStore.favoriteStore.meta === Meta.loading && <Loader />}
 
                     {rootStore.favoriteStore.favoriteRecepies.length === 0
-                        && <Text tag="p">You don't have any favorite recipes yet.</Text>}
+                        && <Text tag="p">You do not have any favorite recipes yet.</Text>}
                     <div className={styles.container__products}>
                         {rootStore.favoriteStore.favoriteRecepies.length > 0 && rootStore.favoriteStore.favoriteRecepies.map(rec => {
                             return (
