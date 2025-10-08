@@ -52,6 +52,9 @@ export default class QueryParamsStore {
         } else {
             newParams[key] = value;
         }
+        if (key === 'search' || key === 'categories') {
+            newParams.page = '1';
+        }
 
         this._params = newParams;
         this.updateBrowserUrl();
