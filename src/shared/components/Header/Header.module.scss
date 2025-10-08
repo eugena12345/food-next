@@ -10,7 +10,6 @@
     padding: vars.$spaceM 0;
     display: flex;
     justify-content: center;
-
 }
 
 .headerContainer {
@@ -19,6 +18,8 @@
     max-width: vars.$maxWidth;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .logoContent {
