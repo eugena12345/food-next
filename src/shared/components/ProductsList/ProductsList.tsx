@@ -11,7 +11,7 @@ import InfoCard from '../InfoCard';
 import { getIngradientsString } from '~/utils/helpers';
 import Button from '../Button';
 import Text from '~/components/Text';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ResponseWithMeta } from '~/shared/stores/CatalogStore/CatalogStore';
 import Pagination from '../Pagination';
 import dinnerParty from './../../../../public/images/dinnerParty.svg';
@@ -31,12 +31,28 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
       initData,
     ));
 
-  const addFavRecipe = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, recipeId: number) => {
+  const getIsExistInFavorite = useCallback((id: number): boolean => {
+    const coll = favoriteStore.favoriteRecepies;
+    const exists = coll.some((existingRecipe) => existingRecipe.recipe.id === id);
+    return exists;
+  }, [favoriteStore]);
+
+
+  const toggleFavRecipe = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, recipeId: number, isExist: boolean) => {
       e.preventDefault();
       e.stopPropagation();
-      favoriteStore.addFavoriteRecipe(recipeId);
+      if (isExist) {
+        favoriteStore.deleteFavoriteRecipe(e, recipeId)
+      }
+      if (!isExist) {
+        favoriteStore.addFavoriteRecipe(recipeId);
+      }
     }, [favoriteStore])
+
+  useEffect(() => {
+    favoriteStore.getFavoriteRecipiesList()
+  }, [favoriteStore]);
 
   return (
     <div className={styles.container}>
@@ -47,7 +63,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
           </div>
         }
         {store.recepies.length > 0 && store.recepies.map(rec => {
-
+          const isExistInFavorite = getIsExistInFavorite(rec.id);
           return (
             <Link href={routes.recipe.create(rec.documentId)} key={rec.id} className={styles.link}>
               <InfoCard
@@ -61,9 +77,9 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
                 actionSlot={
                   authStore.isAuthenticated ?
                     <div className={styles.userActionButton}>
-                      <Button onClick={(e) => addFavRecipe(e, rec.id)}
+                      <Button onClick={(e) => toggleFavRecipe(e, rec.id, isExistInFavorite)}
                       >
-                        Save
+                        {isExistInFavorite ? "Delete" : "Save"}
                       </Button>
                       <Image src={dinnerParty} alt='dinnerParty' className={styles.dinnerParty} onClick={(e) => {
                         e.preventDefault();

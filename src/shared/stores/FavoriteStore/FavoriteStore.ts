@@ -75,6 +75,7 @@ export default class FavoriteStore {
     async addFavoriteRecipe(
         id: number
     ): Promise<void> {
+
         const token = Cookies.get("JWT");
         try {
             const response = await this._apiStore.request({
@@ -85,6 +86,8 @@ export default class FavoriteStore {
                 },
                 data: { recipe: id },
             });
+            this.getFavoriteRecipiesList();
+
 
         } catch (error) {
             console.error('Failed to fetch initial data:', error);
