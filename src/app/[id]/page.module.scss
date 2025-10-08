@@ -51,6 +51,10 @@
 
 .recipe {}
 
+.titleH1 {
+    font-size: 44px;
+}
+
 .preInfo {
     display: flex;
     flex-direction: row;
@@ -102,6 +106,10 @@
         width: 400px;
         height: 400px;
     }
+
+    .titleH1 {
+        font-size: 36px;
+    }
 }
 
 @media (max-width: vars.$breakpointsM) {
@@ -119,6 +127,7 @@
 
     .card__image {
         width: 40%;
+        border-radius: 8%;
     }
 
     .descrElement {
@@ -128,6 +137,10 @@
     .summary {
         margin-right: 40px;
         padding: 32px;
+    }
+
+    .titleH1 {
+        font-size: 24px;
     }
 }
 

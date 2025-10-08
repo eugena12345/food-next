@@ -32,7 +32,7 @@ export default async function RecipePage({ params }: Props) {
                 {recipe.name
                     && <div className={styles.recipe}>
                         <div className={styles.title}>
-                            <Text view='title'>{recipe.name}</Text>
+                            <h1 className={styles.titleH1}>{recipe.name}</h1>
                         </div>
                         <div className={styles.preInfo}>
                             <img src={recipe.images[0].url} alt='картинка' className={styles['card__image']} />
