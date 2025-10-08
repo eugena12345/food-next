@@ -77,6 +77,7 @@ export default async function RecipePage({ params }: Props) {
                             <IngredientsEquipmentBlock
                                 ingredients={recipe.ingradients}
                                 equipment={recipe.equipments}
+                                initialServings={recipe.servings}
                             />
                         </div>
 
