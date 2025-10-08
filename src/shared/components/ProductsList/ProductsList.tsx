@@ -61,16 +61,17 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
                 contentSlot={`${Math.round(rec.calories)} kcal`}
                 actionSlot={
                   authStore.isAuthenticated ?
-                  <div className={styles.userActionButton}>
-                  <Button onClick={(e) => addFavRecipe(e, rec.id)}
-                    >
-                      Save
-                    </Button>
-                    <Image src={dinnerParty} alt='dinnerParty' className={styles.dinnerParty} onClick={(e)=>{
-                      e.preventDefault();
-                      dinnerPartyStore.addRecepeForDinner(rec)}} />
-                  </div>
-                    
+                    <div className={styles.userActionButton}>
+                      <Button onClick={(e) => addFavRecipe(e, rec.id)}
+                      >
+                        Save
+                      </Button>
+                      <Image src={dinnerParty} alt='dinnerParty' className={styles.dinnerParty} onClick={(e) => {
+                        e.preventDefault();
+                        dinnerPartyStore.addRecepeForDinner(rec)
+                      }} />
+                    </div>
+
                     : null
                 }
               />
@@ -80,7 +81,9 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
         }
         )}
       </div>
-      <Pagination pageCount={store.metaInfo.pagination.pageCount} actualPage={store.metaInfo.pagination.page} />
+      {store.metaInfo.pagination.pageCount > 1 &&
+        <Pagination pageCount={store.metaInfo.pagination.pageCount} actualPage={store.metaInfo.pagination.page} />
+      }
     </div>
   )
 };
