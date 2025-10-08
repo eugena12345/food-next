@@ -36,10 +36,6 @@ const LoginPage = () => {
             <div className={styles["container--withMax"]}>
                 <form className={styles.authForm} onSubmit={handleSubmit}>
                     <Text color="accent" tag="h2">{mode === "login" ? "Login" : "Register"}</Text>
-
-                    {rootStore.authStore.error && <p className={styles.error}>{rootStore.authStore.error}</p>}
-
-
                     <label className={styles.label} htmlFor="identifier">Username</label>
                     <input
                         className={styles.element}
@@ -98,6 +94,8 @@ const LoginPage = () => {
                         {rootStore.authStore.isLoading ? "Processing..." : mode === "login" ? "Login" : "Register"}
 
                     </Button>
+
+                    {rootStore.authStore.error && <p className={styles.error}>{rootStore.authStore.error}</p>}
 
                     <div className={styles.switchMode}>
                         {mode === "login" ? (
