@@ -35,4 +35,8 @@ export const routes = {
     mask: "/authorization",
     create: () => "/authorization",
   },
+  dinnerparty: {
+    mask: '/dinnerparty',
+    create: () => '/dinnerparty'
+  }
 }

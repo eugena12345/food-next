@@ -15,13 +15,15 @@ import Text from '~/components/Text';
 import { useCallback } from 'react';
 import { ResponseWithMeta } from '~/shared/stores/CatalogStore/CatalogStore';
 import Pagination from '../Pagination';
+import dinnerParty from './../../../../public/images/dinnerParty.svg';
+import Image from 'next/image';
 
 interface ProductsListProps {
   initData: ResponseWithMeta;
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
-  const { authStore, query, apiStore, favoriteStore } = useRootStore();
+  const { authStore, query, apiStore, favoriteStore, dinnerPartyStore } = useRootStore();
 
   const store = useLocalStore(() =>
     new CatalogStore(
@@ -59,10 +61,16 @@ const ProductsList: React.FC<ProductsListProps> = ({ initData }) => {
                 contentSlot={`${Math.round(rec.calories)} kcal`}
                 actionSlot={
                   authStore.isAuthenticated ?
-                    <Button onClick={(e) => addFavRecipe(e, rec.id)}
+                  <div className={styles.userActionButton}>
+                  <Button onClick={(e) => addFavRecipe(e, rec.id)}
                     >
                       Save
                     </Button>
+                    <Image src={dinnerParty} alt='dinnerParty' className={styles.dinnerParty} onClick={(e)=>{
+                      e.preventDefault();
+                      dinnerPartyStore.addRecepeForDinner(rec)}} />
+                  </div>
+                    
                     : null
                 }
               />

@@ -3,21 +3,30 @@ import QueryStore from '~/stores/RootStore/QueryParamsStore/QueryParamsStore';
 import ApiStore from '../ApiStore';
 import AuthStore from '../AuthStore/AuthStore';
 import FavoriteStore from '../FavoriteStore';
+import DinnerPartyStore from '../DinnerPartyStore/DinnerPartyStore';
 export class RootStore {
   someData: string = '';
   query: QueryStore;
   apiStore: ApiStore;
   authStore: AuthStore;
   favoriteStore: FavoriteStore;
+  dinnerPartyStore: DinnerPartyStore;
   token?: string;
 
-  constructor(queryStore: QueryStore, apiStore: ApiStore, authStore: AuthStore, favoriteStore: FavoriteStore, initialData?: Partial<RootStore>) {
+  constructor(
+    queryStore: QueryStore, 
+    apiStore: ApiStore, 
+    authStore: AuthStore, 
+    favoriteStore: FavoriteStore,
+    dinnerPartyStore: DinnerPartyStore, 
+    initialData?: Partial<RootStore>) {
     makeAutoObservable(this);
 
     this.query = queryStore;
     this.apiStore = apiStore;
     this.authStore = authStore;
     this.favoriteStore = favoriteStore;
+    this.dinnerPartyStore = dinnerPartyStore;
     this.token = initialData?.token;
 
     if (initialData) {

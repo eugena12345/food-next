@@ -1,0 +1,206 @@
+@use './../../styles//variables.module.scss' as vars;
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #FFC0763B;
+    padding-left: 100px;
+    padding-right: 100px;
+    box-sizing: border-box;
+    padding-bottom: 90px;
+    min-height: calc(100vh - 90px);
+
+    &--maxWidth {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: vars.$maxWidth;
+        height: 100%;
+    }
+}
+
+.recipeList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .recipeItem {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        img {
+            width: 100px; 
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        button {
+            margin-left: auto;
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darkred;
+            }
+        }
+    }
+}
+
+.btnChangeGuest {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: vars.$color-brand;
+    color: white;
+    border-radius: 4px;
+    margin: 0 10px;
+
+    &:hover {
+        background-color: vars.$color-brand-hover;
+    }
+
+}
+
+.guestCount {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+
+    button {
+        margin: 0 10px;
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+
+    span {
+        font-size: 1.5rem;
+    }
+}
+
+.ingredientsList {
+    margin-top: 20px;
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+    }
+}
+
+.ingredientsList {
+    position: relative;
+    background: #fffdf0; 
+    border: 1px solid #d4c9b8; 
+    border-radius: 8px; 
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.05); 
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px; 
+    font-family: 'Courier New', Courier, monospace; 
+    line-height: 1.6; 
+    overflow: hidden; 
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 20%,
+                rgba(255, 255, 255, 0.8) 80%,
+                transparent 100%);
+        mask: radial-gradient(circle at center, black 50%, transparent 55%);
+        -webkit-mask: radial-gradient(circle at center, black 50%, transparent 55%);
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #4a4a4a; 
+        margin-bottom: 15px;
+        position: relative;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: #4a4a4a;
+            margin: 8px auto 0;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ccc;
+            font-size: 1rem;
+            color: #333;
+
+            &:last-child {
+                border-bottom: none; 
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 15px;
+        font-size: 0.9rem;
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        ul li {
+            padding: 6px 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        max-width: 100%;
+        padding: 10px;
+
+        h2 {
+            font-size: 1rem;
+        }
+
+        ul li {
+            font-size: 0.8rem;
+            padding: 5px 0;
+        }
+    }
+}

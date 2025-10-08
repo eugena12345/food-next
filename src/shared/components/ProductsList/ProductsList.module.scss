@@ -70,6 +70,29 @@
   max-width: 400px;
 }
 
+.userActionButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dinnerParty {
+  width: vars.$spaceXXL;
+  height: vars.$spaceXXL;
+  margin-left: 5px;
+  padding: 5px;
+  border: solid 1px vars.$color-brand;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: vars.$color-brand-hover;
+  }
+
+  &:active {
+    background-color: vars.$color-brand-active;
+  }
+}
+
 
 @media (max-width: vars.$breakpointsS) {
   .container {
