@@ -22,8 +22,6 @@
     justify-content: space-between;
 }
 
-
-
 .quoteSection {
     width: 60%;
     position: relative;
@@ -86,15 +84,28 @@
 }
 
 @media (max-width: 600px) {
+    .content {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .quoteSection {
+        display: none;
+    }
+
     .quote {
-        font-size: 12px;
+        display: none;
     }
 
     .eugena {
         font-size: 14px;
+        display: flex;
+        justify-content: stretch;
     }
 
     .socialIcons {
+        display: flex;
+        justify-content: stretch;
         gap: 5px;
         flex-wrap: wrap;
 
