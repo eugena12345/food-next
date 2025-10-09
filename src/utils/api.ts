@@ -37,9 +37,6 @@ export const createParamsForApi = (params: ParamsFromQuery): ParamsForApi => {
         }
     };
 
-    //TODO if (params.sort && params.sort !== '') {
-    //     paramsForApi.sort = params.sort;
-    // }
     return paramsForApi;
 };
 

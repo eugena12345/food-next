@@ -1,5 +1,3 @@
-// TODO удалить из зависимостей реакт бургер меню
-
 'use client';
 import styles from './HeaderNav.module.scss';
 import { memo, useCallback, useState } from 'react';
