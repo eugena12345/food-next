@@ -33,17 +33,28 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        padding: 10px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
 
         img {
-            width: 100px; 
-            height: auto;
+            width: 60px;
+            height: 60px;
             border-radius: 5px;
             object-fit: cover;
         }
 
         h2 {
-            font-size: 1.5rem;
             margin: 0;
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
         }
 
         button {
@@ -54,9 +65,11 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
 
             &:hover {
                 background-color: darkred;
+                transform: scale(1.05);
             }
         }
     }
@@ -115,16 +128,16 @@
 
 .ingredientsList {
     position: relative;
-    background: #fffdf0; 
-    border: 1px solid #d4c9b8; 
-    border-radius: 8px; 
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.05); 
+    background: #fffdf0;
+    border: 1px solid #d4c9b8;
+    border-radius: 8px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.05);
     padding: 20px;
     margin: 20px auto;
-    max-width: 600px; 
-    font-family: 'Courier New', Courier, monospace; 
-    line-height: 1.6; 
-    overflow: hidden; 
+    max-width: 600px;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    overflow: hidden;
 
     &::before {
         content: '';
@@ -144,9 +157,8 @@
 
     h2 {
         text-align: center;
-        font-size: 1.5rem;
         font-weight: bold;
-        color: #4a4a4a; 
+        color: #4a4a4a;
         margin-bottom: 15px;
         position: relative;
 
@@ -172,7 +184,7 @@
             color: #333;
 
             &:last-child {
-                border-bottom: none; 
+                border-bottom: none;
             }
         }
     }
@@ -180,10 +192,6 @@
     @media (max-width: 768px) {
         padding: 15px;
         font-size: 0.9rem;
-
-        h2 {
-            font-size: 1.2rem;
-        }
 
         ul li {
             padding: 6px 0;
@@ -193,10 +201,6 @@
     @media (max-width: 480px) {
         max-width: 100%;
         padding: 10px;
-
-        h2 {
-            font-size: 1rem;
-        }
 
         ul li {
             font-size: 0.8rem;
